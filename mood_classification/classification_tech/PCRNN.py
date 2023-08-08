@@ -15,21 +15,23 @@ from keras.callbacks import LearningRateScheduler
 
 ####EDIT BEFORE RUNNING ###########
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "../../audio_file/preprocessed/STFT_GTZAN_dataset.txt"
+DATA_PATH = "../deam_organized/valence_300.json"
 SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_NAME = "genre_PRCNN-0804"
+NEWDIR_NAME = "genre_PRCNN-0810"
 
 MODEL_NAME = "saved_model"
-HM_NAME = "heatmap3.png"
-A_PLOT_NAME = 'accuracy3.png'
-L_PLOT_NAME = 'loss3.png'
+HM_NAME = "heatmap.png"
+A_PLOT_NAME = 'accuracy.png'
+L_PLOT_NAME = 'loss.png'
 
 # Hyperparameters
 LEARNING_RATE = 0.002
-EPOCHS = 100
+EPOCHS = 50
+
+NUM_CLASSES = 6
 
 ####################################
 
@@ -283,7 +285,7 @@ if __name__ == "__main__":
     # # Define the hidden size for LSTM layers
     # hidden_size = 64
     
-    num_classes = 10  # Number of music genres
+    num_classes = NUM_CLASSES  # Number of music genres
     
     # Create the combined model
     model = Parallel_CNN_RNN(input_shape)
