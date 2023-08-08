@@ -13,12 +13,12 @@ from sklearn.metrics import confusion_matrix
 NUM_CLASSES = 6
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "../deam_organized/arousal_300.json"
+DATA_PATH = "../deam_organized/valence_300.json"
 SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_PATH = "../results/ashraf_bigru_arousal"
+NEWDIR_PATH = "../results/ashraf_bigru_valence"
 
 MODEL_NAME = "saved_model"
 HM_NAME = "heatmap.png"
