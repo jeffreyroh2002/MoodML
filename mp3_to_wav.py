@@ -3,7 +3,7 @@ import os
 
 # Specify input directory containing MP3 files and output directory for WAV files
 input_dir = 'DEAM_dataset/DEAM_audio'
-output_dir = 'DEAM_dataset/DEAM_audio/wav'
+output_dir = 'DEAM_dataset/DEAM_audio_wav'
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
