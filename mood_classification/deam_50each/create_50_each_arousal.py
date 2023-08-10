@@ -20,7 +20,7 @@ with open(csv_file, 'r') as file:
     
     for row in reader:
         song_id = row['song_id']
-        arousal_mean = float(row['arousal_mean'])
+        arousal_mean = float(row['arousal_mean'])  #unable to access specific row"
         
         # Floor the arousal_mean to get a whole number
         arousal_mean_floor = math.floor(arousal_mean)
