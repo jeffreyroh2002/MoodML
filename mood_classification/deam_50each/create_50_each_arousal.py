@@ -5,7 +5,7 @@ import shutil
 
 # Replace these with the actual file paths and directory paths
 csv_file = 'arousal_extracted.csv'
-mp3_directory = '../deam-dataset/DEAM_audio/MEMD_audio_wav'
+mp3_directory = '../DEAM-dataset/DEAM_audio_wav'
 output_directory = 'arousal_dataset'
 max_files_per_arousal = 50  # Maximum number of files to copy per arousal value
 
