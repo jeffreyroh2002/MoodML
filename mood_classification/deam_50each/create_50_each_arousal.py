@@ -4,8 +4,8 @@ import math
 import shutil
 
 # Replace these with the actual file paths and directory paths
-csv_file = '../DEAM_dataset/DEAM_Annotations/static_annotations_averaged_songs_1_2000.csv'
-mp3_directory = '../DEAM_dataset/DEAM_audio_wav'
+csv_file = '../../DEAM_dataset/DEAM_Annotations/static_annotations_averaged_songs_1_2000.csv'
+mp3_directory = '../../DEAM_dataset/DEAM_audio_wav'
 output_directory = 'arousal_dataset'
 max_files_per_arousal = 50  # Maximum number of files to copy per arousal value
 
