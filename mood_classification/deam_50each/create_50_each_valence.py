@@ -22,19 +22,19 @@ with open(csv_file, 'r') as file:
         song_id = row['song_id']
         valence_mean = float(row['valence_mean'])  #unable to access specific row"
         
-        # Floor the valence_mean to get a whole number
-       valence_mean_floor = math.floor(valence_mean)
+        # Round the valence_mean to get a whole number
+        valence_mean_round= round(valence_mean)
 
         # Initialize the counter for this valence value
-        if valence_mean_floor not in valence_counter:
-            valence_counter[valence_mean_floor] = 0
+        if valence_mean_round not in valence_counter:
+            valence_counter[valence_mean_round] = 0
         
         # Check if the counter has reached the maximum
-        if valence_counter[valence_mean_floor] >= max_files_per_valence:
+        if valence_counter[valence_mean_round] >= max_files_per_valence:
             continue  # Skip copying more files for this valence value
         
         # Create a directory for the specific arousal/valence_mean if it doesn't exist
-        valence_directory = os.path.join(output_directory, f'valence{valence_mean_floor}')
+        valence_directory = os.path.join(output_directory, f'valence{valence_mean_round}')
         if not os.path.exists(valence_directory):
             os.makedirs(valence_directory)
 
@@ -48,6 +48,6 @@ with open(csv_file, 'r') as file:
             shutil.copyfile(mp3_file_path, destination_file_path)
             
             # Increment the counter for this valence value
-            valence_counter[valence_mean_floor] += 1
+            valence_counter[valence_mean_round] += 1
 
 print(f"First {max_files_per_valence} MP3 files copied to directories based on whole number valence_mean.")
