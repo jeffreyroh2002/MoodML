@@ -3,8 +3,8 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "test_audio_data"
-JSON_FILE_NAME = "test_audio_data_arousal.json"
+DATASET_PATH = "testing_hip-hop"
+JSON_FILE_NAME = "test_hip_hop.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
