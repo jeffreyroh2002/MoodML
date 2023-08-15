@@ -6,7 +6,7 @@ import os
 # Load the saved model
 arousal_model_path = "../mood_classification/results/812_PCRNN_2D_arousal_50each/saved_model"
 valence_model_path = "../mood_classification/results/814_PCRNN_2D_valence_50each/saved_model"
-test_data_path = "test_audio_data_arousal.json"
+test_data_path = "test_hip_hop.json"
 
 def load_testing_data(test_data_path):
     with open(test_data_path, "r") as fp:
