@@ -21,20 +21,24 @@ with open(csv_file, 'r') as file:
     for row in reader:
         song_id = row['song_id']
         arousal_mean = float(row['arousal_mean'])  #unable to access specific row"
-        
+        arousal_std = float(row['arousal_std'])
+
         # Floor the arousal_mean to get a whole number
-        arousal_mean_floor = math.floor(arousal_mean)
+        if arousal_std > arousal_mean * 0.35:
+            arousal_mean = math.floor(arousal_mean)
+        else:
+            arousal_mean = round(arousal_mean)
 
         # Initialize the counter for this arousal value
-        if arousal_mean_floor not in arousal_counter:
-            arousal_counter[arousal_mean_floor] = 0
+        if arousal_mean not in arousal_counter:
+            arousal_counter[arousal_mean] = 0
         
         # Check if the counter has reached the maximum
-        if arousal_counter[arousal_mean_floor] >= max_files_per_arousal:
+        if arousal_counter[arousal_mean] >= max_files_per_arousal:
             continue  # Skip copying more files for this arousal value
         
         # Create a directory for the specific arousal/valence_mean if it doesn't exist
-        arousal_directory = os.path.join(output_directory, f'arousal_{arousal_mean_floor}')
+        arousal_directory = os.path.join(output_directory, f'arousal_{arousal_mean}')
         if not os.path.exists(arousal_directory):
             os.makedirs(arousal_directory)
 
@@ -48,6 +52,6 @@ with open(csv_file, 'r') as file:
             shutil.copyfile(mp3_file_path, destination_file_path)
             
             # Increment the counter for this arousal value
-            arousal_counter[arousal_mean_floor] += 1
+            arousal_counter[arousal_mean] += 1
 
 print(f"First {max_files_per_arousal} MP3 files copied to directories based on whole number arousal_mean.")
