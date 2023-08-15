@@ -3,7 +3,7 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "arousal_dataset_rm1"
+DATASET_PATH = "arousal_dataset"
 JSON_FILE_NAME = "arousal_50each.json"
 JSON_PATH = JSON_FILE_NAME
 
