@@ -20,6 +20,35 @@ def load_testing_data(test_data_path):
 def scaling(num, in_min, in_max, out_min, out_max):
     return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
 
+def mood_extractor(valence, arousal):
+    if valence < (1/3) : 
+        if arousal < 0.25 :
+            mood = "Sad"
+        elif arousal < 0.5 :
+            mood = "Bored"
+        elif arousal < 0.75 :
+            mood = "Nervous"
+        else:
+            mood = "Angry"
+    elif valence < (2/3) :
+        if arousal < 0.25 :
+            mood = "Sleepy"
+        elif arousal < 0.75 :
+            mood = "Calm"
+        else :
+            mood = "Excited"
+    else :
+        if arousal < 0.25 :
+            mood = "Peaceful"
+        elif arousal < 0.5 :
+            mood = "Relaxed"
+        elif arousal < 0.75 :
+            mood = "Pleased"
+        else:
+            mood = "Happy"
+
+    return mood
+
 X_test, y_test = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
 
@@ -57,16 +86,29 @@ v_label_list = {
 # Assuming label_list contains the mapping of class indices to labels
 a_indices = []
 v_indices = []
+a_dict = {}
+v_dict = {}
+mood = []
 
 a_predicted_labels = [a_label_list[index] for index in a_predicted_class_indices]
 for i, label in enumerate(a_predicted_labels):
     print(f"Sample {i + 1}: Arousal Predicted Label: {label}")
-    a_indices.append(int(label.split("_")[-1]))
+    arousal_val = int(label.split("_")[-1])
+    if arousal_val not in a_dict:
+        a_dict[arousal_val] = 0
+    else:
+        a_dict[arousal_val] += 1
+    a_indices.append(arousal_val)
 
 v_predicted_labels = [v_label_list[index] for index in v_predicted_class_indices]
 for i, label in enumerate(v_predicted_labels):
     print(f"Sample {i + 1}: Valence Predicted Label: {label}")
-    v_indices.append(int(label.split("_")[-1]))
+    valence_val = int(label.split("_")[-1])
+    if valence_val not in v_dict:
+        v_dict[valence_val] = 0
+    else:
+        v_dict[valence_val] += 1
+    v_indices.append(valence_val)
 
 print("Arousal Mean : ", np.mean(a_indices), "Arousal Std : ", np.std(a_indices))
 print("Valence Mean : ", np.mean(v_indices), "Valence Std : ", np.std(v_indices))
@@ -77,34 +119,27 @@ scaled_Valence_mean = scaling(np.mean(v_indices), 1, 9, 0, 1)
 print("Scaled Arousal Mean : ", scaled_Arousal_mean)
 print("Scaled Valence Mean : ", scaled_Valence_mean)
 
+# mood extraction based on mean value
+mood.append(mood_extractor(scaled_Valence_mean, scaled_Arousal_mean))
 
-# 0 ~ 325 
+print(a_dict)
+print(v_dict)
+# mood extraction based on the most frequent value
+a_mod = []
+v_mod = []
 
+a_max =  max(a_dict, key=a_dict.get)
+a_mod.append(a_max)
 
-if scaled_Valence_mean < (1 / 3) : 
-    if scaled_Arousal_mean < 0.25 :
-        mood = "Sad"
-    elif scaled_Arousal_mean < 0.5 :
-        mood = "Bored"
-    elif scaled_Arousal_mean < 0.75 :
-        mood = "Nervous"
-    else:
-        mood = "Angry"
-elif scaled_Valence_mean < (2/3) :
-    if scaled_Arousal_mean < 0.25 :
-        mood = "Sleepy"
-    elif scaled_Arousal_mean < 0.75 :
-        mood = "Calm"
-    else :
-        mood = "Excited"
-else :
-    if scaled_Arousal_mean < 0.25 :
-        mood = "Peaceful"
-    elif scaled_Arousal_mean < 0.5 :
-        mood = "Relaxed"
-    elif scaled_Arousal_mean < 0.75 :
-        mood = "Pleased"
-    else:
-        mood = "Happy"
+v_max =  max(v_dict, key=v_dict.get)
+v_mod.append(v_max)
+
+scaled_Arousal = scaling(np.mean(a_mod), 1, 9, 0, 1)
+scaled_Valence= scaling(np.mean(v_mod), 1, 9, 0, 1)
+
+print("Scaled Most Frequent Arousal : ", scaled_Arousal)
+print("Scaled Most Frequent Valence : ", scaled_Valence)
+
+mood.append(mood_extractor(scaled_Valence, scaled_Arousal))
 
 print("Mood of this song : ", mood)
