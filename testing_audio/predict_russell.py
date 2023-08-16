@@ -17,6 +17,10 @@ def load_testing_data(test_data_path):
 
     return X_test, y_test
 
+# is scaling function needed?
+
+# add mood_extractor
+
 X_test, y_test = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
 
@@ -50,6 +54,9 @@ v_label_list = {
     5: "Valence_7",
     6: "Valence_8"
 }
+
+####Recreate Main to give average scores and output mood####
+#probably need to use a circumplex equation/model to average out values
 
 # Assuming label_list contains the mapping of class indices to labels
 
