@@ -21,6 +21,9 @@ def scaling(num, in_min, in_max, out_min, out_max):
     return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
 
 # add mood_extractor
+def mood_extractor(valence, arousal):
+
+    return mood
 
 X_test, y_test = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
@@ -90,4 +93,11 @@ for i, label in enumerate(v_predicted_labels):
 print("Arousal Mean : ", np.mean(a_indices), "Arousal Std : ", np.std(a_indices))
 print("Valence Mean : ", np.mean(v_indices), "Valence Std : ", np.std(v_indices))
 
-# add scaling
+scaled_Arousal_mean = scaling(np.mean(a_indices), 1, 9, 0, 1)
+scaled_Valence_mean = scaling(np.mean(v_indices), 1, 9, 0, 1)
+
+print("Scaled Arousal Mean : ", scaled_Arousal_mean)
+print("Scaled Valence Mean : ", scaled_Valence_mean)
+
+# mood extraction based on mean value
+mood.append(mood_extractor(scaled_Valence_mean, scaled_Arousal_mean))
