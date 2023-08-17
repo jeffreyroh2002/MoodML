@@ -17,7 +17,8 @@ def load_testing_data(test_data_path):
 
     return X_test, y_test
 
-# is scaling function needed?
+def scaling(num, in_min, in_max, out_min, out_max):
+    return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
 
 # add mood_extractor
 
@@ -55,6 +56,12 @@ v_label_list = {
     6: "Valence_8"
 }
 
+a_indices = []
+v_indices = []
+a_dict = {}
+v_dict = {}
+mood = []
+
 ####Recreate Main to give average scores and output mood####
 #probably need to use a circumplex equation/model to average out values
 
@@ -63,7 +70,24 @@ v_label_list = {
 a_predicted_labels = [a_label_list[index] for index in a_predicted_class_indices]
 for i, label in enumerate(a_predicted_labels):
     print(f"Sample {i + 1}: Arousal Predicted Label: {label}")
+    arousal_val = int(label.split("_")[-1])
+    if arousal_val not in a_dict:
+        a_dict[arousal_val] = 0
+    else:
+        a_dict[arousal_val] += 1
+    a_indices.append(arousal_val)
 
 v_predicted_labels = [v_label_list[index] for index in v_predicted_class_indices]
 for i, label in enumerate(v_predicted_labels):
     print(f"Sample {i + 1}: Valence Predicted Label: {label}")
+    valence_val = int(label.split("_")[-1])
+    if valence_val not in v_dict:
+        v_dict[valence_val] = 0
+    else:
+        v_dict[valence_val] += 1
+    v_indices.append(valence_val)
+
+print("Arousal Mean : ", np.mean(a_indices), "Arousal Std : ", np.std(a_indices))
+print("Valence Mean : ", np.mean(v_indices), "Valence Std : ", np.std(v_indices))
+
+# add scaling
