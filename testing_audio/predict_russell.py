@@ -8,6 +8,7 @@ arousal_model_path = "../mood_classification/results/812_PCRNN_2D_arousal_50each
 valence_model_path = "../mood_classification/results/814_PCRNN_2D_valence_50each/saved_model"
 test_data_path = "test_hip_hop.json"
 
+
 def load_testing_data(test_data_path):
     with open(test_data_path, "r") as fp:
         test_data = json.load(fp)
@@ -22,7 +23,14 @@ def scaling(num, in_min, in_max, out_min, out_max):
 
 # add mood_extractor
 def mood_extractor(valence, arousal):
-
+    if valence < 0.5 and arousal < 0.5:
+        mood = "Sad"
+    elif valence < 0.5 and arousal > 0.5:
+        mood = "Angry"
+    elif valence > 0.5 and arousal < 0.5:
+        mood = "Relaxed"
+    elif valence > 0.5 and arousal > 0.5:
+        mood = "Happy" 
     return mood
 
 X_test, y_test = load_testing_data(test_data_path)
@@ -101,3 +109,25 @@ print("Scaled Valence Mean : ", scaled_Valence_mean)
 
 # mood extraction based on mean value
 mood.append(mood_extractor(scaled_Valence_mean, scaled_Arousal_mean))
+
+print(a_dict)
+print(v_dict)
+# mood extraction based on the most frequent value
+a_mod = []
+v_mod = []
+
+a_max =  max(a_dict, key=a_dict.get)
+a_mod.append(a_max)
+
+v_max =  max(v_dict, key=v_dict.get)
+v_mod.append(v_max)
+
+scaled_Arousal = scaling(np.mean(a_mod), 1, 9, 0, 1)
+scaled_Valence= scaling(np.mean(v_mod), 1, 9, 0, 1)
+
+print("Scaled Most Frequent Arousal : ", scaled_Arousal)
+print("Scaled Most Frequent Valence : ", scaled_Valence)
+
+mood.append(mood_extractor(scaled_Valence, scaled_Arousal))
+
+print("Mood of this song : ", mood)
