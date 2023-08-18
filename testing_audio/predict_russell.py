@@ -23,10 +23,6 @@ def scaling(num, in_min, in_max, out_min, out_max):
 
 # add mood_extractor
 
-Certainly, you can split the ranges into smaller intervals to capture a wider range of moods. Here's an updated version of the mood_extractor function that assigns single mood labels based on a finer-grained valence-arousal classification:
-
-python
-Copy code
 def mood_extractor(valence, arousal):
     if valence <= 0.4 and arousal <= 0.4:
         mood = "Depressed"
