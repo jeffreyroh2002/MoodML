@@ -24,13 +24,36 @@ def scaling(num, in_min, in_max, out_min, out_max):
 # add mood_extractor
 def mood_extractor(valence, arousal):
     if valence < 0.5 and arousal < 0.5:
-        mood = "Sad"
+        mood = "Depressed"
     elif valence < 0.5 and arousal > 0.5:
         mood = "Angry"
     elif valence > 0.5 and arousal < 0.5:
-        mood = "Relaxed"
+        mood = "Calm"
     elif valence > 0.5 and arousal > 0.5:
-        mood = "Happy" 
+        mood = "Excited"
+    
+    if valence < 0.2:
+        mood += ", Distressed"
+    elif valence < 0.4:
+        mood += ", Sad"
+    elif valence < 0.6:
+        mood += ", Bored"
+    elif valence < 0.8:
+        mood += ", Content"
+    else:
+        mood += ", Delighted"
+    
+    if arousal < 0.2:
+        mood += ", Sleepy"
+    elif arousal < 0.4:
+        mood += ", Calm"
+    elif arousal < 0.6:
+        mood += ", Relaxed"
+    elif arousal < 0.8:
+        mood += ", Tense"
+    else:
+        mood += ", Happy"
+    
     return mood
 
 X_test, y_test = load_testing_data(test_data_path)
@@ -123,7 +146,7 @@ v_max =  max(v_dict, key=v_dict.get)
 v_mod.append(v_max)
 
 scaled_Arousal = scaling(np.mean(a_mod), 1, 9, 0, 1)
-scaled_Valence= scaling(np.mean(v_mod), 1, 9, 0, 1)
+scaled_Valence = scaling(np.mean(v_mod), 1, 9, 0, 1)
 
 print("Scaled Most Frequent Arousal : ", scaled_Arousal)
 print("Scaled Most Frequent Valence : ", scaled_Valence)
