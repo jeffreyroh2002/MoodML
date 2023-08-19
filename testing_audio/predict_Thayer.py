@@ -20,34 +20,89 @@ def load_testing_data(test_data_path):
 def scaling(num, in_min, in_max, out_min, out_max):
     return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
 
+# def mood_extractor(valence, arousal):
+#     if valence < (1/3) : 
+#         if arousal < 0.25 :
+#             mood = "Sad"
+#         elif arousal < 0.5 :
+#             mood = "Bored"
+#         elif arousal < 0.75 :
+#             mood = "Nervous"
+#         else:
+#             mood = "Angry"
+#     elif valence < (2/3) :
+#         if arousal < 0.25 :
+#             mood = "Sleepy"
+#         elif arousal < 0.75 :
+#             mood = "Calm"
+#         else :
+#             mood = "Excited"
+#     else :
+#         if arousal < 0.25 :
+#             mood = "Peaceful"
+#         elif arousal < 0.5 :
+#             mood = "Relaxed"
+#         elif arousal < 0.75 :
+#             mood = "Pleased"
+#         else:
+#             mood = "Happy"
+
+#     return mood
+
 def mood_extractor(valence, arousal):
-    if valence < (1/3) : 
-        if arousal < 0.25 :
-            mood = "Sad"
-        elif arousal < 0.5 :
-            mood = "Bored"
-        elif arousal < 0.75 :
-            mood = "Nervous"
+    result = 0.5 * (valence + arousal)
+
+    if valence >= 0 and arousal >= 0 :
+        if result > 0.8:
+            mood = "Exhilarating"
+        elif result > 0.6:
+            mood = "Energetic"
+        elif result > 0.4:
+            mood = "Dynamic"
+        elif result > 0.2:
+            mood = "Optimistic"
         else:
-            mood = "Angry"
-    elif valence < (2/3) :
-        if arousal < 0.25 :
-            mood = "Sleepy"
-        elif arousal < 0.75 :
             mood = "Calm"
-        else :
-            mood = "Excited"
-    else :
-        if arousal < 0.25 :
-            mood = "Peaceful"
-        elif arousal < 0.5 :
+    elif valence >= 0 and arousal < 0 :
+        if result > 0.7:
+            mood = "Serene"
+        elif result > 0.5:
             mood = "Relaxed"
-        elif arousal < 0.75 :
+        elif result > 0.3:
+            mood = "Content"
+        elif result > 0.1:
             mood = "Pleased"
+        elif result >= 0.0:
+            mood = "Calm"
         else:
-            mood = "Happy"
+            mood = "Sleepy"
+    elif valence < 0 and arousal >= 0:
+        if result < -0.7:
+            mood = "Hysterical"
+        elif result < -0.5:
+            mood = "Overwhelmed"
+        elif result < -0.3:
+            mood = "Fearful"
+        elif result < -0.1:
+            mood = "Angry"
+        elif result <= 0.0:
+            mood = "Anxious"
+        else:
+            mood = "Tense"
+    else:
+        if result < -0.8:
+            mood = "despairing"
+        elif result < -0.6:
+            mood = "Miserable"
+        elif result < -0.4:
+            mood = "Bored"
+        elif result < -0.2:
+            mood = "Sad"
+        else:
+            mood = "Nostalgic"
 
     return mood
+            
 
 X_test, y_test = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
@@ -113,8 +168,8 @@ for i, label in enumerate(v_predicted_labels):
 print("Arousal Mean : ", np.mean(a_indices), "Arousal Std : ", np.std(a_indices))
 print("Valence Mean : ", np.mean(v_indices), "Valence Std : ", np.std(v_indices))
 
-scaled_Arousal_mean = scaling(np.mean(a_indices), 1, 9, 0, 1)
-scaled_Valence_mean = scaling(np.mean(v_indices), 1, 9, 0, 1)
+scaled_Arousal_mean = scaling(np.mean(a_indices), 1, 9, -1, 1)
+scaled_Valence_mean = scaling(np.mean(v_indices), 1, 9, -1, 1)
 
 print("Scaled Arousal Mean : ", scaled_Arousal_mean)
 print("Scaled Valence Mean : ", scaled_Valence_mean)
