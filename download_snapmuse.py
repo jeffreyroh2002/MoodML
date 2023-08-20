@@ -10,7 +10,7 @@ download_directory = 'audio_files'
 os.makedirs(download_directory, exist_ok=True)
 
 # Initialize the web driver (replace 'chromedriver.exe' with the path to your web driver executable)
-driver = webdriver.Chrome(executable_path='chromedriver.exe')
+driver = webdriver.Chrome()
 
 # Loop through each mood
 for mood in moods:
