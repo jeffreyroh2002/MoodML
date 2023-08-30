@@ -19,6 +19,8 @@ def load_testing_data(test_data_path):
 X_test, y_test = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
 
+loaded_model = keras.models.load_model(saved_model_path)
+
 # Make predictions
 predictions = loaded_model.predict(X_test)
 
