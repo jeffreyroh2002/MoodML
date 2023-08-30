@@ -25,7 +25,7 @@ loaded_model = keras.models.load_model(saved_model_path)
 predictions = loaded_model.predict(X_test)
 
 # If you have a classification task, you can get the predicted class indices:
-redicted_class_indices = np.argmax(predictions, axis=1)
+predicted_class_indices = np.argmax(predictions, axis=1)
 
 # Define your label list mapping class indices to labels
 label_list = {
