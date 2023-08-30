@@ -30,6 +30,7 @@ LEARNING_RATE = 0.0001
 EPOCHS = 50
 
 ####################################
+tf.debugging.set_log_device_placement(True)
 
 if not os.path.exists(NEWDIR_PATH):
     os.makedirs(NEWDIR_PATH)
