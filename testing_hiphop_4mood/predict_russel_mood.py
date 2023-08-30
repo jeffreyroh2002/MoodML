@@ -5,7 +5,7 @@ import os
 
 # Load the saved model
 model_path = "../mood_classification/results/830_PCRNN_2D_snapmuse_4/saved_model"
-test_data_path = "test_audio_data_arousal.json"
+test_data_path = "test_hip_hop.json"
 
 def load_testing_data(test_data_path):
     with open(test_data_path, "r") as fp:
