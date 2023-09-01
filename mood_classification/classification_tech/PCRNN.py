@@ -27,7 +27,7 @@ L_PLOT_NAME = 'loss.png'
 
 # Hyperparameters
 LEARNING_RATE = 0.0001
-EPOCHS = 30
+EPOCHS = 50
 
 ####################################
 tf.debugging.set_log_device_placement(True)
