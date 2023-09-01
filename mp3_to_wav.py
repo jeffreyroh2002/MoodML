@@ -2,12 +2,13 @@ from pydub import AudioSegment
 import os
 
 # Specify input directory containing MP3 files and output directory for WAV files
-input_dir = 'hip-hop'
-output_dir = 'testing_audio'
+input_dir = 'DEAM_dataset/DEAM_dataset/DEAM_audio/MEMD_audio'
+output_dir = 'DEAM_dataset/DEAM_dataset_wav'
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
 
+print("Start processing")
 # Convert MP3 files to WAV
 for mp3_file in os.listdir(input_dir):
     if mp3_file.endswith('.mp3'):

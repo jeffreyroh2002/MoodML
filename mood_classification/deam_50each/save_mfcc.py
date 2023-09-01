@@ -4,10 +4,10 @@ import math
 import librosa
 
 DATASET_PATH = "arousal_dataset"
-JSON_FILE_NAME = "arousal_50each.json"
+JSON_FILE_NAME = "arousal_50each_44khz.json"
 JSON_PATH = JSON_FILE_NAME
 
-SAMPLE_RATE = 22050
+SAMPLE_RATE = 44100
 DURATION = 45 # measured in seconds for GTZAN Dataset
 SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
 
