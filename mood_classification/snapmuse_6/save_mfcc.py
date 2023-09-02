@@ -3,7 +3,11 @@ import os
 import math
 import librosa
 
+<<<<<<< HEAD
 DATASET_PATH = "../../SnapMuse_dataset/SnapMuse_6"
+=======
+DATASET_PATH = "../../SnapMuse_dataset/SnapMuse_7"
+>>>>>>> 307208b93392ce3750fbed2da0fdcc13dc4a6300
 JSON_FILE_NAME = "snapmuse_6.json"
 JSON_PATH = JSON_FILE_NAME
 

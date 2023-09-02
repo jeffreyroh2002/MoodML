@@ -10,15 +10,15 @@ import os
 from sklearn.metrics import confusion_matrix
 
 ####EDIT BEFORE RUNNING ###########
-NUM_CLASSES = 7
+NUM_CLASSES = 6
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "../snapmuse_7/snapmuse_7.json"
+DATA_PATH = "../../snapmuse_7_test/snapmuse_6.json"
 SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_PATH = "../results/901_PCRNN_2D_snapmuse_7"
+NEWDIR_PATH = "../results/902_PCRNN_2D_snapmuse_6"
 
 MODEL_NAME = "saved_model"
 HM_NAME = "heatmap.png"
