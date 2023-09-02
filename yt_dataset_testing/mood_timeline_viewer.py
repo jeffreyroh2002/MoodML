@@ -40,8 +40,14 @@ label_list = {
 
 # Assuming label_list contains the mapping of class indices to labels
 counter = 0
+time = 0
 predicted_labels = [label_list[index] for index in predicted_class_indices]
 for i, label in enumerate(predicted_labels):
-    print(f"Sample {filenames[counter]} : Predicted Label: {label}")
+    print(f"{3 * time}sec Sample {filenames[counter]} : Predicted Label: {label}")
+    time += 1
     counter += 1
+
+    if counter % 60  == 0:
+        time = 0
+
 print(predicted_labels)
