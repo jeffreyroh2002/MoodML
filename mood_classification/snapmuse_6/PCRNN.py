@@ -13,12 +13,12 @@ from sklearn.metrics import confusion_matrix
 NUM_CLASSES = 6
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "snapmuse_6_5sec.json"
+DATA_PATH = "snapmuse_6_6sec.json"
 SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_PATH = "../results/902_PCRNN_2D_snapmuse_6_5sec"
+NEWDIR_PATH = "../results/902_PCRNN_2D_snapmuse_6_6sec"
 
 MODEL_NAME = "saved_model"
 HM_NAME = "heatmap.png"
@@ -109,17 +109,17 @@ def prepare_datasets(test_size, validation_size):
 def Parallel_CNN_RNN(input_shape, num_classes):
     input = keras.layers.Input(shape=input_shape)
     
-    C_layer = keras.layers.Conv2D(filters=16, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(input)
-    C_layer = keras.layers.BatchNormalization()(C_layer)
-    C_layer = keras.layers.Dropout(0.2)(C_layer)
-    C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
-    
-    C_layer = keras.layers.Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(C_layer)
+    C_layer = keras.layers.Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(input)
     C_layer = keras.layers.BatchNormalization()(C_layer)
     C_layer = keras.layers.Dropout(0.2)(C_layer)
     C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
     
     C_layer = keras.layers.Conv2D(filters=64, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(C_layer)
+    C_layer = keras.layers.BatchNormalization()(C_layer)
+    C_layer = keras.layers.Dropout(0.2)(C_layer)
+    C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
+    
+    C_layer = keras.layers.Conv2D(filters=128, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(C_layer)
     C_layer = keras.layers.BatchNormalization()(C_layer)
     C_layer = keras.layers.Dropout(0.2)(C_layer)
     C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
@@ -137,7 +137,7 @@ def Parallel_CNN_RNN(input_shape, num_classes):
     
     # R_layer = keras.layers.MaxPooling2D(pool_size=(1,1), strides=(1,2))(input)
     # R_layer = keras.layers.MaxPooling2D(pool_size=(1,2), strides=(1,2))(R_layer)
-    R_layer = keras.layers.Reshape(target_shape=(216,13))(input)
+    R_layer = keras.layers.Reshape(target_shape=(259,13))(input)
     # R_layer = keras.layers.Embedding(input_dim=256, output_dim=128, input_length=128)(R_layer)
     R_layer = keras.layers.Dense(128, activation='relu')(R_layer)
     # R_layer = keras.layers.Reshape(target_shape=(128, 128))(R_layer)
@@ -191,36 +191,36 @@ if __name__ == "__main__":
                         batch_size=32, epochs=EPOCHS, verbose=1, callbacks=[lr_scheduler])
     """
     
-    # Train the model
-    history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation),
-                        batch_size=32, epochs=EPOCHS, verbose=1)
+    # # Train the model
+    # history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation),
+    #                     batch_size=32, epochs=EPOCHS, verbose=1)
     
-    print("Finished Training Model!")
+    # print("Finished Training Model!")
     
-    # Print validation loss and accuracy
-    val_loss, val_acc = model.evaluate(X_test, y_test)
-    print("Valdiation Loss: ", val_loss)
-    print("Valdiation Accuracy: ", val_acc)
+    # # Print validation loss and accuracy
+    # val_loss, val_acc = model.evaluate(X_test, y_test)
+    # print("Valdiation Loss: ", val_loss)
+    # print("Valdiation Accuracy: ", val_acc)
 
-    # Plot history
-    save_plot(history)
+    # # Plot history
+    # save_plot(history)
 
-    # Evaluate model on test set
-    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
-    print('\nTest accuracy:', test_acc)
+    # # Evaluate model on test set
+    # test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
+    # print('\nTest accuracy:', test_acc)
 
-    # Pick a sample to predict from the test set
-    X_to_predict = X_test[10]
-    y_to_predict = y_test[10]
+    # # Pick a sample to predict from the test set
+    # X_to_predict = X_test[10]
+    # y_to_predict = y_test[10]
 
-    # Predict sample
-    #predict(model, X_to_predict, y_to_predict)
+    # # Predict sample
+    # #predict(model, X_to_predict, y_to_predict)
 
-    # Save model
-    if SAVE_MODEL:
-        model.save(os.path.join(NEWDIR_PATH, MODEL_NAME))
-        print("Model saved to disk at:", os.path.join(NEWDIR_PATH, MODEL_NAME))
+    # # Save model
+    # if SAVE_MODEL:
+    #     model.save(os.path.join(NEWDIR_PATH, MODEL_NAME))
+    #     print("Model saved to disk at:", os.path.join(NEWDIR_PATH, MODEL_NAME))
 
-    # Output heatmap
-    if SAVE_HM:
-        get_heatmap(model, X_test, y_test, NEWDIR_PATH, HM_NAME, label_list)
+    # # Output heatmap
+    # if SAVE_HM:
+    #     get_heatmap(model, X_test, y_test, NEWDIR_PATH, HM_NAME, label_list)
