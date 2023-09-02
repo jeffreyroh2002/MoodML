@@ -18,10 +18,11 @@ def load_testing_data(test_data_path):
 
     X_test = np.array(test_data["mfcc"])  # Adjust the key as per your data format
     y_test = np.array(test_data["labels"])  # Adjust the key as per your data format
+    filenames = test_data["filenames"]
 
-    return X_test, y_test
+    return X_test, y_test, filenames
 
-X_test, y_test = load_testing_data(test_data_path)
+X_test, y_test, filenames = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
 
 loaded_model = keras.models.load_model(saved_model_path)
@@ -49,7 +50,6 @@ label_counts = {label: 0 for label in label_list.values()}
 song_radar_values = np.zeros(len(label_list))
 song_index = 0
 
-# Iterate through predicted labels
 for i, label_index in enumerate(predicted_class_indices):
     label = label_list[label_index]
     
@@ -62,11 +62,14 @@ for i, label_index in enumerate(predicted_class_indices):
 
     # Calculate and save the radar chart when reaching the end of a song (every 60 segments)
     if segment_count == 60:
+        # Get the audio file name for the current song
+        song_filename = filenames[song_index]
+
         # Calculate the average radar values for the song
         avg_radar_values = song_radar_values / segment_count
 
-        # Output the averaged radar values to the terminal
-        print(f"Song {song_index + 1} Average Radar Values:")
+        # Output the averaged radar values and file name to the terminal
+        print(f"Song {song_index + 1} ({song_filename}) Average Radar Values:")
         for label, avg_value in zip(label_list.values(), avg_radar_values):
             print(f"{label}: {avg_value:.2f}")
 
@@ -99,5 +102,3 @@ for i, label_index in enumerate(predicted_class_indices):
         label_counts = {label: 0 for label in label_list.values()}
         song_radar_values = np.zeros(len(label_list))
         song_index += 1
-
-# You can perform additional actions or analysis with the generated radar charts as needed.
