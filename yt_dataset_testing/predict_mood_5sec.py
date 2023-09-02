@@ -5,9 +5,9 @@ import plotly.graph_objs as go
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6_5sec/saved_model"
-test_data_path = "snap6_8songs_5sec.json"
-output_dir = "902snap6_8songs_5sec"  # Directory to save individual radar chart images
+saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6_6sec/saved_model"
+test_data_path = "snap6_8songs_6sec.json"
+output_dir = "902snap6_9songs_6sec"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
@@ -32,7 +32,7 @@ predictions = loaded_model.predict(X_test)
 
 # If you have a classification task, you can get the predicted class indices:
 predicted_class_indices = np.argmax(predictions, axis=1)
-
+print(predicted_class_indices)
 # Define your label list mapping class indices to labels
 label_list = {
     0: "Angry",
@@ -52,6 +52,8 @@ song_index = 0
 
 # Iterate through predicted labels
 for i, label_index in enumerate(predicted_class_indices):
+    if label_index == 6:
+        label_index = 4
     label = label_list[label_index]
     
     # Update label counts for percentage calculation
@@ -61,7 +63,7 @@ for i, label_index in enumerate(predicted_class_indices):
     song_radar_values[label_index] += 1
 
     # Calculate and save the radar chart when reaching the end of a song (every 60 segments)
-    if segment_count == 36:
+    if segment_count == 30:
         # Calculate the average radar values for the song
         avg_radar_values = song_radar_values / segment_count
         # Output the averaged radar values to the terminal
