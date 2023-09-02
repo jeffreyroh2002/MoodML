@@ -5,9 +5,9 @@ import plotly.graph_objs as go
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6/saved_model"
+saved_model_path = "../mood_classification/results/901_PCRNN_2D_snapmuse_7/saved_model"
 test_data_path = "snap6_8songs.json"
-output_dir = "902snap6_8songs"  # Directory to save individual radar chart images
+output_dir = "901snap7_8songs"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
@@ -37,14 +37,16 @@ predicted_class_indices = np.argmax(predictions, axis=1)
 label_list = {
     0: "Angry",
     1: "Calm",
-    2: "Energetic",
-    3: "Melancholic",
-    4: "Tense",
-    5: "Uplifting"
+    2: "Dreamy",
+    3: "Energetic",
+    4: "Melancholic",
+    5: "Tense",
+    6: "Uplifting"
 }
 
 # Initialize variables for percentage calculation
 segment_count = 0
+counter = 1
 label_counts = {label: 0 for label in label_list.values()}
 song_radar_values = np.zeros(len(label_list))
 song_index = 0
@@ -64,7 +66,7 @@ for i, label_index in enumerate(predicted_class_indices):
         # Calculate the average radar values for the song
         avg_radar_values = song_radar_values / segment_count
         # Output the averaged radar values to the terminal
-        print(f"Song {song_index + 1} Average Radar Values:")
+        print(f"{filenames[(segment_count-1)*counter]} Average Radar Values:")
         for label, avg_value in zip(label_list.values(), avg_radar_values):
             print(f"{label}: {avg_value:.2f}")
         # Create a radar chart trace for the averaged values
@@ -72,7 +74,7 @@ for i, label_index in enumerate(predicted_class_indices):
             r=avg_radar_values,
             theta=list(label_list.values()),
             fill='toself',
-            name=f"{filenames[segment_count]}_Average"
+            name=f"{filenames[(segment_count-1)*counter]}_Average"
         )
         # Create a layout for the radar chart
         layout = go.Layout(
@@ -87,7 +89,7 @@ for i, label_index in enumerate(predicted_class_indices):
         fig = go.Figure(data=[radar_chart_trace], layout=layout)
         
         # Save the figure as an image (PNG) in the output directory
-        output_filename = os.path.join(output_dir, f"{filenames[segment_count]}_RadarChart.png")
+        output_filename = os.path.join(output_dir, f"{filenames[(segment_count-1)*counter]}_RadarChart.png")
         fig.write_image(output_filename)
         
         # Reset variables for the next song
@@ -95,3 +97,4 @@ for i, label_index in enumerate(predicted_class_indices):
         label_counts = {label: 0 for label in label_list.values()}
         song_radar_values = np.zeros(len(label_list))
         song_index += 1
+        counter += 1
