@@ -4,8 +4,8 @@ from tensorflow import keras
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6/saved_model"
-test_data_path = "snap6_8songs.json"
+saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6_5sec/saved_model"
+test_data_path = "snap6_8songs_5sec.json"
 
 def load_testing_data(test_data_path):
     with open(test_data_path, "r") as fp:
@@ -47,7 +47,7 @@ for i, label in enumerate(predicted_labels):
     time += 1
     counter += 1
 
-    if counter % 60  == 0:
+    if counter % 36  == 0:
         time = 0
 
 print(predicted_labels)
