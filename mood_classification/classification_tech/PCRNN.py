@@ -13,7 +13,7 @@ from sklearn.metrics import confusion_matrix
 NUM_CLASSES = 6
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "../../snapmuse_7_test/snapmuse_6.json"
+DATA_PATH = "../snapmuse_6/snapmuse_6.json"
 SAVE_MODEL = True
 SAVE_HM = True
 
