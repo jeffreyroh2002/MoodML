@@ -3,8 +3,8 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "../SnapMuse_dataset/SnapMuse_7"
-JSON_FILE_NAME = "snapmuse_6.json"
+DATASET_PATH = "../yt_dataset"
+JSON_FILE_NAME = "snap6_8songs.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
