@@ -5,9 +5,9 @@ import plotly.graph_objs as go
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/901_PCRNN_2D_snapmuse_7/saved_model"
-test_data_path = "real_data_3sec.json"
-output_dir = "radar_charts"  # Directory to save individual radar chart images
+saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6/saved_model"
+test_data_path = "real_data.json"
+output_dir = "radar_charts_6"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
@@ -36,11 +36,10 @@ predicted_class_indices = np.argmax(predictions, axis=1)
 label_list = {
     0: "Angry",
     1: "Calm",
-    2: "Dreamy",
-    3: "Energetic",
-    4: "Melancholic",
-    5: "Tense",
-    6: "Uplifting"
+    2: "Energetic",
+    3: "Melancholic",
+    4: "Tense",
+    5: "Uplifting"
 }
 
 # Initialize variables for percentage calculation
