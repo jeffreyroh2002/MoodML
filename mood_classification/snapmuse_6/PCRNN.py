@@ -191,36 +191,36 @@ if __name__ == "__main__":
                         batch_size=32, epochs=EPOCHS, verbose=1, callbacks=[lr_scheduler])
     """
     
-    # # Train the model
-    # history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation),
-    #                     batch_size=32, epochs=EPOCHS, verbose=1)
+    # Train the model
+    history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation),
+                        batch_size=32, epochs=EPOCHS, verbose=1)
     
-    # print("Finished Training Model!")
+    print("Finished Training Model!")
     
-    # # Print validation loss and accuracy
-    # val_loss, val_acc = model.evaluate(X_test, y_test)
-    # print("Valdiation Loss: ", val_loss)
-    # print("Valdiation Accuracy: ", val_acc)
+    # Print validation loss and accuracy
+    val_loss, val_acc = model.evaluate(X_test, y_test)
+    print("Valdiation Loss: ", val_loss)
+    print("Valdiation Accuracy: ", val_acc)
 
-    # # Plot history
-    # save_plot(history)
+    # Plot history
+    save_plot(history)
 
-    # # Evaluate model on test set
-    # test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
-    # print('\nTest accuracy:', test_acc)
+    # Evaluate model on test set
+    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
+    print('\nTest accuracy:', test_acc)
 
-    # # Pick a sample to predict from the test set
-    # X_to_predict = X_test[10]
-    # y_to_predict = y_test[10]
+    # Pick a sample to predict from the test set
+    X_to_predict = X_test[10]
+    y_to_predict = y_test[10]
 
-    # # Predict sample
-    # #predict(model, X_to_predict, y_to_predict)
+    # Predict sample
+    #predict(model, X_to_predict, y_to_predict)
 
-    # # Save model
-    # if SAVE_MODEL:
-    #     model.save(os.path.join(NEWDIR_PATH, MODEL_NAME))
-    #     print("Model saved to disk at:", os.path.join(NEWDIR_PATH, MODEL_NAME))
+    # Save model
+    if SAVE_MODEL:
+        model.save(os.path.join(NEWDIR_PATH, MODEL_NAME))
+        print("Model saved to disk at:", os.path.join(NEWDIR_PATH, MODEL_NAME))
 
-    # # Output heatmap
-    # if SAVE_HM:
-    #     get_heatmap(model, X_test, y_test, NEWDIR_PATH, HM_NAME, label_list)
+    # Output heatmap
+    if SAVE_HM:
+        get_heatmap(model, X_test, y_test, NEWDIR_PATH, HM_NAME, label_list)
