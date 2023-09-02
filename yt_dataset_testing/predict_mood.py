@@ -93,8 +93,11 @@ for i, label_index in enumerate(predicted_class_indices):
         # Create a figure with the radar chart for the song
         fig = go.Figure(data=[radar_chart_trace], layout=layout)
 
-        # Save the figure as an image (PNG) in the output directory
-        output_filename = os.path.join(output_dir, f"Song_{song_index + 1}_RadarChart.png")
+        # Extract the audio file name without the path
+        audio_file_name = os.path.basename(song_filename)
+
+        # Save the figure as an image (PNG) in the output directory with the associated audio file name
+        output_filename = os.path.join(output_dir, f"{audio_file_name}_RadarChart.png")
         fig.write_image(output_filename)
 
         # Reset variables for the next song
