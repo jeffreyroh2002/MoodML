@@ -59,12 +59,12 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
 					#store mfcc for segment if it has the expected length
 					if len(mfcc) == expected_num_mfcc_vectors_per_segment:
 						data["mfcc"].append(mfcc.tolist())  #convert numpy array to list
+						print(mfcc.shape)
 						data["labels"].append(i-1)
 						print("{}, segment:{}".format(file_path, s))
-                        print(mfcc.shape)
     
-    with open(json_path, "w") as fp:
-        json.dump(data, fp, indent=4)
+	with open(json_path, "w") as fp:
+		json.dump(data, fp, indent=4)
         
 if __name__ == "__main__":
     save_mfcc(DATASET_PATH, JSON_PATH, num_segments=36)
