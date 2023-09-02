@@ -3,7 +3,7 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "../yt_dataset"
+DATASET_PATH = "yt_dataset"
 JSON_FILE_NAME = "snap6_8songs.json"
 JSON_PATH = JSON_FILE_NAME
 
