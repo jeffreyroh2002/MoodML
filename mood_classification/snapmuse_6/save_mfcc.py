@@ -3,12 +3,9 @@ import os
 import math
 import librosa
 
-<<<<<<< HEAD
+
 DATASET_PATH = "../../SnapMuse_dataset/SnapMuse_6"
-=======
-DATASET_PATH = "../../SnapMuse_dataset/SnapMuse_7"
->>>>>>> 307208b93392ce3750fbed2da0fdcc13dc4a6300
-JSON_FILE_NAME = "snapmuse_6.json"
+JSON_FILE_NAME = "snapmuse_6_5sec.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
@@ -64,10 +61,10 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
 						data["mfcc"].append(mfcc.tolist())  #convert numpy array to list
 						data["labels"].append(i-1)
 						print("{}, segment:{}".format(file_path, s))
-						
-	with open(json_path, "w") as fp:
-		json.dump(data, fp, indent=4)
-
+                        print(mfcc.shape)
+    
+    with open(json_path, "w") as fp:
+        json.dump(data, fp, indent=4)
         
 if __name__ == "__main__":
-    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=60)
+    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=36)
