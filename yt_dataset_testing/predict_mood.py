@@ -49,37 +49,31 @@ label_counts = {label: 0 for label in label_list.values()}
 song_radar_values = np.zeros(len(label_list))
 song_index = 0
 
+# Iterate through predicted labels
 for i, label_index in enumerate(predicted_class_indices):
     label = label_list[label_index]
     
     # Update label counts for percentage calculation
     label_counts[label] += 1
     segment_count += 1
-
     # Update radar values for the current song
     song_radar_values[label_index] += 1
 
     # Calculate and save the radar chart when reaching the end of a song (every 60 segments)
     if segment_count == 60:
-        # Get the audio file name for the current song
-        song_filename = filenames[song_index]
-
         # Calculate the average radar values for the song
         avg_radar_values = song_radar_values / segment_count
-
-        # Output the averaged radar values and file name to the terminal
-        print(f"Song {song_index + 1} ({song_filename}) Average Radar Values:")
+        # Output the averaged radar values to the terminal
+        print(f"Song {song_index + 1} Average Radar Values:")
         for label, avg_value in zip(label_list.values(), avg_radar_values):
             print(f"{label}: {avg_value:.2f}")
-
         # Create a radar chart trace for the averaged values
         radar_chart_trace = go.Scatterpolar(
             r=avg_radar_values,
             theta=list(label_list.values()),
             fill='toself',
-            name=f"Song_{song_index + 1}_Average"
+            name=f"{filenames[segment_count]}_Average"
         )
-
         # Create a layout for the radar chart
         layout = go.Layout(
             polar=dict(
@@ -91,14 +85,11 @@ for i, label_index in enumerate(predicted_class_indices):
 
         # Create a figure with the radar chart for the song
         fig = go.Figure(data=[radar_chart_trace], layout=layout)
-
-        # Extract the audio file name without the path
-        audio_file_name = os.path.basename(song_filename)
-
-        # Save the figure as an image (PNG) in the output directory with the associated audio file name
-        output_filename = os.path.join(output_dir, f"{audio_file_name}_RadarChart.png")
+        
+        # Save the figure as an image (PNG) in the output directory
+        output_filename = os.path.join(output_dir, f"{filenames[segment_count]}_RadarChart.png")
         fig.write_image(output_filename)
-
+        
         # Reset variables for the next song
         segment_count = 0
         label_counts = {label: 0 for label in label_list.values()}
