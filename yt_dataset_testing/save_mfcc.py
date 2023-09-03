@@ -4,7 +4,7 @@ import math
 import librosa
 
 DATASET_PATH = "yt_dataset"
-JSON_FILE_NAME = "snap6_8songs_5sec.json"
+JSON_FILE_NAME = "snap6_8songs_6sec.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
@@ -68,4 +68,4 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
 
 
 if __name__ == "__main__":
-    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=36)
+    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=30)
