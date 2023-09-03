@@ -4,7 +4,7 @@ from tensorflow import keras
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/902_PCRNN_2D_snapmuse_6_5sec/saved_model"
+saved_model_path = "../mood_classification/results/903_PCRNN_2D_snapmuse_6_3sec/saved_model"
 test_data_path = "snap6_8songs_5sec.json"
 
 def load_testing_data(test_data_path):
