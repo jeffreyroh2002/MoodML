@@ -38,7 +38,7 @@ label_list = {
     0: "Angry",
     1: "Bright",
     2: "Melancholic",
-    3: "Sad"
+    3: "Relaxed"
 }
 
 # Initialize variables for percentage calculation

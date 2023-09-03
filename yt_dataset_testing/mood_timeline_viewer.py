@@ -4,8 +4,8 @@ from tensorflow import keras
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/903_PCRNN_2D_snapmuse_6_3sec/saved_model"
-test_data_path = "snap6_8songs_5sec.json"
+saved_model_path = "../mood_classification/results/903_PCRNN_2D_pixabay_3sec/saved_model"
+test_data_path = "p4_8songs_3sec.json"
 
 def load_testing_data(test_data_path):
     with open(test_data_path, "r") as fp:
@@ -31,11 +31,9 @@ predicted_class_indices = np.argmax(predictions, axis=1)
 # Define your label list mapping class indices to labels
 label_list = {
     0: "Angry",
-    1: "Calm",
-    2: "Energetic",
-    3: "Melancholic",
-    4: "Tense",
-    5: "Uplifting"
+    1: "Bright",
+    2: "Melancholic",
+    3: "Relaxed"
 }
 
 # Assuming label_list contains the mapping of class indices to labels
@@ -47,7 +45,7 @@ for i, label in enumerate(predicted_labels):
     time += 1
     counter += 1
 
-    if counter % 36  == 0:
+    if counter % 60  == 0:
         time = 0
 
 print(predicted_labels)
