@@ -41,57 +41,73 @@ label_list = {
     3: "Relaxed"
 }
 
+Song_list = set(filenames)
+Song_list = list(Song_list)
+Sorted_Song_list = sorted(Song_list)
+Song_list = {label : [] for label in Sorted_Song_list}
+
+
+
+# sort labels 
+for i, label in enumerate(predicted_class_indices):
+    f_name = filenames[i]
+    Song_list[f_name].append(i)
+
+
 # Initialize variables for percentage calculation
 segment_count = 0
-counter = 1
 label_counts = {label: 0 for label in label_list.values()}
 song_radar_values = np.zeros(len(label_list))
-song_index = 0
+prev_song_title = Sorted_Song_list[0][:-7]
 
-# Iterate through predicted labels
-for i, label_index in enumerate(predicted_class_indices):
-    label = label_list[label_index]
-    
-    # Update label counts for percentage calculation
-    label_counts[label] += 1
-    segment_count += 1
-    # Update radar values for the current song
-    song_radar_values[label_index] += 1
+for f in Sorted_Song_list:
+    predicted_idx = Song_list[f]
 
-    # Calculate and save the radar chart when reaching the end of a song (every 60 segments)
-    if segment_count == 60:
-        # Calculate the average radar values for the song
-        avg_radar_values = song_radar_values / segment_count
-        # Output the averaged radar values to the terminal
-        print(f"{filenames[(segment_count-1)*counter]} Average Radar Values:")
-        for label, avg_value in zip(label_list.values(), avg_radar_values):
-            print(f"{label}: {avg_value:.2f}")
-        # Create a radar chart trace for the averaged values
-        radar_chart_trace = go.Scatterpolar(
+    for idx in predicted_idx:
+        f_name = f[:-7]
+        if f_name != prev_song_title:
+            # Calculate the average radar values for the song
+            avg_radar_values = song_radar_values / segment_count
+            # Output the averaged radar values to the terminal
+            print(f"{f_name} Average Radar Values:")
+            for label, avg_value in zip(label_list.values(), avg_radar_values):
+                print(f"{label}: {avg_value:.2f}")
+            
+            radar_chart_trace = go.Scatterpolar(
             r=avg_radar_values,
             theta=list(label_list.values()),
             fill='toself',
-            name=f"{filenames[(segment_count-1)*counter]}_Average"
-        )
-        # Create a layout for the radar chart
-        layout = go.Layout(
+            name=f"{f_name}_Average"
+            )
+            # Create a layout for the radar chart
+            layout = go.Layout(
             polar=dict(
                 radialaxis=dict(showticklabels=False, ticks='', showline=False),
                 angularaxis=dict(showticklabels=True, ticks='outside', showline=True)
             ),
             showlegend=True
-        )
+            )
 
-        # Create a figure with the radar chart for the song
-        fig = go.Figure(data=[radar_chart_trace], layout=layout)
+            fig = go.Figure(data=[radar_chart_trace], layout=layout)
+
+            # Save the figure as an image (PNG) in the output directory
+            output_filename = os.path.join(output_dir, f"{f_name}_RadarChart.png")
+            fig.write_image(output_filename)
+
+            # Reset variables for the next song
+            segment_count = 0
+            label_counts = {label: 0 for label in label_list.values()}
+            song_radar_values = np.zeros(len(label_list))
+
+            prev_song_title = f_name
+            
+
+        label = label_list[predicted_class_indices[idx]]
         
-        # Save the figure as an image (PNG) in the output directory
-        output_filename = os.path.join(output_dir, f"{filenames[(segment_count-1)*counter]}_RadarChart.png")
-        fig.write_image(output_filename)
-        
-        # Reset variables for the next song
-        segment_count = 0
-        label_counts = {label: 0 for label in label_list.values()}
-        song_radar_values = np.zeros(len(label_list))
-        song_index += 1
-        counter += 1
+        # Update label counts for percentage calculation
+        label_counts[label] += 1
+        segment_count += 1
+        # Update radar values for the current song
+        song_radar_values[predicted_class_indices[idx]] +=1
+
+
