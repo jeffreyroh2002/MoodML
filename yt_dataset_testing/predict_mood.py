@@ -59,7 +59,7 @@ for i, label_index in enumerate(predicted_class_indices):
     song_radar_values[label_index] += 1
 
     # Calculate and save the radar chart when reaching the end of a song (every 60 segments)
-    if segment_count == 20:
+    if segment_count == 60:
         # Calculate the average radar values for the song
         avg_radar_values = song_radar_values / segment_count
         # Output the averaged radar values to the terminal

@@ -8,7 +8,7 @@ JSON_FILE_NAME = "p4_8songs_3sec.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
-DURATION = 60  # measured in seconds for GTZAN Dataset
+DURATION = 180  # measured in seconds for GTZAN Dataset
 SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
 
 def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, num_segments=5):
@@ -68,4 +68,4 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
 
 
 if __name__ == "__main__":
-    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=20)
+    save_mfcc(DATASET_PATH, JSON_PATH, num_segments=60)
