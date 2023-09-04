@@ -45,7 +45,7 @@ for i, label in enumerate(predicted_labels):
     time += 1
     counter += 1
 
-    if counter % 60  == 0:
+    if counter % 20  == 0:
         time = 0
 
 print(predicted_labels)
