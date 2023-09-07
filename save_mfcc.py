@@ -3,8 +3,8 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "pixabay_dataset"
-JSON_FILE_NAME = "pixabay_ds.json"
+DATASET_PATH = "dataset_lyrics/Preprocessed"
+JSON_FILE_NAME = "dataset_lyrics/dataset_with_lyrics.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
@@ -17,8 +17,7 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
     data = {
         "mapping": [],
         "mfcc": [],
-        "labels": [],
-        "filenames": []  # Store the file names
+        "labels": []
     }
 
     num_samples_per_segment = int(SAMPLES_PER_TRACK / num_segments)
@@ -60,7 +59,6 @@ def save_mfcc(dataset_path, json_path, n_mfcc=13, n_fft=2048, hop_length=512, nu
                     if len(mfcc) == expected_num_mfcc_vectors_per_segment:
                         data["mfcc"].append(mfcc.tolist())  # convert numpy array to list
                         data["labels"].append(i - 1)
-                        data["filenames"].append(f)  # store the file name
                         print("{}, segment:{}".format(file_path, s))
 
     with open(json_path, "w") as fp:
