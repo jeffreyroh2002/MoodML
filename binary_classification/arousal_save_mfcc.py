@@ -4,7 +4,7 @@ import math
 import librosa
 
 DATASET_PATH = "dataset_lyrics"
-JSON_FILE_NAME = "dataset_lyrics.json"
+JSON_FILE_NAME = "arousal_dataset_lyrics.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
