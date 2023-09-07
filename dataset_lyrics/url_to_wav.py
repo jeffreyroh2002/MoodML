@@ -5,7 +5,7 @@ from moviepy.editor import *
 
 def download_audio_from_youtube(link, output_dir):
     try:
-        yt = YouTube(link)
+        yt = YouTube(link, use_oauth=True, allow_oauth_cache=True)
         stream = yt.streams.filter(only_audio=True, file_extension='mp4').first()
         if not stream:
             print(f"No audio stream found for: {link}")
