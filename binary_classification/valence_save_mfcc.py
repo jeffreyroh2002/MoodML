@@ -3,7 +3,7 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "dataset_lyrics"
+DATASET_PATH = "../dataset_lyrics/Preprocessed"
 JSON_FILE_NAME = "valence_dataset_lyrics.json"
 JSON_PATH = JSON_FILE_NAME
 
@@ -12,9 +12,9 @@ DURATION = 60
 SAMPLES_PER_TRACK = SAMPLE_RATE * DURATION
 
 def map_to_binary_labels(semantic_label):
-    if semantic_label in ["bright", "relaxed"]:
+    if semantic_label in ["Bright", "Relaxed"]:
         return "high_valence"
-    elif semantic_label in ["angry", "melancholy"]:
+    elif semantic_label in ["Angry", "Melancholic"]:
         return "low_valence"
     else:
         raise ValueError(f"Unknown label: {semantic_label}")
