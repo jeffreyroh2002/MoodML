@@ -5,10 +5,10 @@ import plotly.graph_objs as go
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/909_PCRNN_2D_binary_arousal_dataset_with_lyrics_3sec/saved_model"
+saved_model_path = "../mood_classification/results/909_PCRNN_2D_binary_valence_dataset_with_lyrics_3sec/saved_model"
 test_data_path = "json_files/p4_8songs_3sec.json"
-model_saved_mfcc = "../binary_classification/json_files/arousal_dataset_lyrics.json"
-output_dir = "new_radar_results/new_radar_909p2_arousal"  # Directory to save individual radar chart images
+model_saved_mfcc = "../binary_classification/json_files/valence_dataset_lyrics.json"
+output_dir = "new_radar_results/new_radar_909p2_valence"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
