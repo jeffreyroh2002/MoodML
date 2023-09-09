@@ -46,103 +46,79 @@ valence_model = keras.models.load_model(valence_model_path)
 a_pred = arousal_model.predict(X_test)
 v_pred = valence_model.predict(X_test)
 
-# If you have a classification task, you can get the predicted class indices:
-a_pred_class_indices = np.argmax(a_pred, axis=1)
+# Combine "bright" and "angry" as high arousal (1) and "relaxed" and "melancholy" as low arousal (0)
+high_arousal_indices = np.isin(a_mfcc_labels, ["bright", "angry"])
+low_arousal_indices = np.isin(a_mfcc_labels, ["relaxed", "melancholy"])
+
+# Assign labels accordingly
+a_pred_labels = np.where(high_arousal_indices, 1, 0)
+
+# If you have a classification task for valence, you can get the predicted class indices:
 v_pred_class_indices = np.argmax(v_pred, axis=1)
 
 # Define your label list mapping class indices to labels
-a_label_list = {}
-for i in range (len(a_mfcc_labels)):
-    a_label_list[i] = a_mfcc_labels[i]
-v_label_list = {}
-for i in range (len(v_mfcc_labels)):
-    a_label_list[i] = a_mfcc_labels[i]
+label_list = {}
+for i, label in enumerate(mfcc_labels):
+    label_list[i] = label
 
-Song_list = set(filenames)
-Song_list = list(Song_list)
-Sorted_Song_list = sorted(Song_list)
-Song_list = {label: [] for label in Sorted_Song_list}
+Song_list = {label: [] for label in filenames}  # Initialize Song_list with filenames
 
 # Initialize variables for percentage calculation
 segment_count = 0
-label_counts = {label: 0 for label in a_label_list.values()}  # Use arousal labels
-song_radar_values = np.zeros(len(a_label_list))  # Use arousal labels
-prev_song_title = Sorted_Song_list[0][:-7]
+label_counts = {label: 0 for label in mfcc_labels}
+song_radar_values = np.zeros(len(mfcc_labels))
+prev_song_title = filenames[0][:-7]
 
-# Define a mapping from arousal and valence labels to your combined labels
-combined_labels_mapping = {
-    ("high", "high"): "Bright",
-    ("high", "low"): "Angry",
-    ("low", "high"): "Relaxed",
-    ("low", "low"): "Melancholic"
-}
+for i, f in enumerate(filenames):
+    predicted_idx = Song_list[f]
 
-for f in Sorted_Song_list:
-    arousal_indices = a_pred_class_indices[Song_list[f]]  # Arousal predictions
-    valence_indices = v_pred_class_indices[Song_list[f]]  # Valence predictions
+    for idx in predicted_idx:
+        f_name = f[:-7]
+        if f_name != prev_song_title:
+            # Calculate the average radar values as percentages for the song
+            avg_radar_values = (song_radar_values / segment_count) * 100  # Multiply by 100 for percentages
 
-    print("Arousal Indices:", arousal_indices)  # Add this line for debugging
-    print("Valence Indices:", valence_indices)  # Add this line for debugging
+            # Output the averaged radar values to the terminal
+            print(f"{f_name} Average Radar Values:")
+            for label, avg_value in zip(mfcc_labels, avg_radar_values):
+                print(f"{label}: {avg_value:.2f}%")
 
-    # Check if arousal_indices or valence_indices is empty and handle it accordingly
-    if len(arousal_indices) == 0:
-        # Handle the case where arousal_indices is empty
-        print("Arousal Indices is empty for", f)
-        # You might want to set a default value or take appropriate action
+            radar_chart_trace = go.Scatterpolar(
+                r=avg_radar_values,
+                theta=list(mfcc_labels),
+                fill='toself',
+                name=f"{f_name}_Average"
+            )
 
-    if len(valence_indices) == 0:
-        # Handle the case where valence_indices is empty
-        print("Valence Indices is empty for", f)
-        # You might want to set a default value or take appropriate action
+            # Create a layout for the radar chart
+            layout = go.Layout(
+                polar=dict(
+                    radialaxis=dict(showticklabels=False, ticks='', showline=False),
+                    angularaxis=dict(showticklabels=True, ticks='outside', showline=True)
+                ),
+                showlegend=True
+            )
 
-    # Calculate the mode of arousal and valence predictions for this song segment
-    mode_arousal = np.argmax(np.bincount(arousal_indices))
-    mode_valence = np.argmax(np.bincount(valence_indices))
+            fig = go.Figure(data=[radar_chart_trace], layout=layout)
 
-    # Combine the arousal and valence labels to get the final label
-    combined_label = combined_labels_mapping[(a_label_list[mode_arousal], v_label_list[mode_valence])]
+            # Save the figure as an image (PNG) in the output directory
+            output_filename = os.path.join(output_dir, f"{f_name}_RadarChart.png")
+            fig.write_image(output_filename)
 
-    f_name = f[:-7]
-    if f_name != prev_song_title:
-        # Calculate the average radar values for the song
-        avg_radar_values = song_radar_values / segment_count
-        # Output the averaged radar values to the terminal
-        print(f"{f_name} Average Radar Values:")
-        for label, avg_value in zip(a_label_list.values(), avg_radar_values):
-            print(f"{label}: {avg_value:.2f}")
+            # Reset variables for the next song
+            segment_count = 0
+            label_counts = {label: 0 for label in mfcc_labels}
+            song_radar_values = np.zeros(len(mfcc_labels))
 
-        radar_chart_trace = go.Scatterpolar(
-            r=avg_radar_values,
-            theta=list(a_label_list.values()),  # Use arousal labels for the radar chart
-            fill='toself',
-            name=f"{f_name}_Average"
-        )
-        # Create a layout for the radar chart
-        layout = go.Layout(
-            polar=dict(
-                radialaxis=dict(showticklabels=False, ticks='', showline=False),
-                angularaxis=dict(showticklabels=True, ticks='outside', showline=True)
-            ),
-            showlegend=True
-        )
+            prev_song_title = f_name
 
-        fig = go.Figure(data=[radar_chart_trace], layout=layout)
+        label_idx = predicted_class_indices[idx]
+        label = mfcc_labels[label_idx]
 
-        # Save the figure as an image (PNG) in the output directory
-        output_filename = os.path.join(output_dir, f"{f_name}_RadarChart.png")
-        fig.write_image(output_filename)
+        # Update label counts for percentage calculation
+        label_counts[label] += 1
+        segment_count += 1
 
-        # Reset variables for the next song
-        segment_count = 0
-        label_counts = {label: 0 for label in a_label_list.values()}  # Use arousal labels
-        song_radar_values = np.zeros(len(a_label_list))  # Use arousal labels
-
-        prev_song_title = f_name
-
-    # Update label counts for percentage calculation
-    label_counts[combined_label] += 1
-    segment_count += 1
-    # Update radar values for the current song
-    song_radar_values[a_pred_class_indices[Song_list[f]]] += 1  # Use arousal labels
-
-
+        # Update radar values for the current song
+        for i in range(len(mfcc_labels)):
+            song_radar_values[i] = label_counts[mfcc_labels[i]]
