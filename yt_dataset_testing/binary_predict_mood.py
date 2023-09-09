@@ -80,6 +80,18 @@ combined_labels_mapping = {
 for f in Sorted_Song_list:
     arousal_indices = a_pred_class_indices[Song_list[f]]  # Arousal predictions
     valence_indices = v_pred_class_indices[Song_list[f]]  # Valence predictions
+    # Calculate the mode of arousal and valence predictions for this song segment
+    if len(arousal_indices) > 0:
+        mode_arousal = np.argmax(np.bincount(arousal_indices))
+    else:
+        # Handle the case where arousal_indices is empty
+        mode_arousal = -1  
+
+    if len(valence_indices) > 0:
+        mode_valence = np.argmax(np.bincount(valence_indices))
+    else:
+        # Handle the case where valence_indices is empty
+        mode_valence = -1 
 
     # Calculate the mode of arousal and valence predictions for this song segment
     mode_arousal = np.argmax(np.bincount(arousal_indices))
