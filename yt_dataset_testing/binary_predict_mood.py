@@ -33,6 +33,50 @@ def load_mfcc_labels(model_saved_mfcc):
 
     return mfcc_labels
 
+def combine_predictions(a_pred_class_indices, v_pred_class_indices):
+    mood_labels = []
+
+    for a_index, v_index in zip(a_pred_class_indices, v_pred_class_indices):
+        if a_index == 1 and v_index == 1:
+            mood_labels.append("Bright")
+        elif a_index == 1 and v_index == 0:
+            mood_labels.append("Angry")
+        elif a_index == 0 and v_index == 1:
+            mood_labels.append("Relaxed")
+        elif a_index == 0 and v_index == 0:
+            mood_labels.append("Melancholic")
+
+    return mood_labels
+
+def create_radar_chart(song_name, mood_labels):
+    # Define the categories for the radar chart (Bright, Melancholic, Relaxed, Angry)
+    categories = ["Bright", "Melancholic", "Relaxed", "Angry"]
+
+    # Calculate the average mood label for the song
+    mood_counts = [mood_labels.count("Bright"), mood_labels.count("Melancholic"), mood_labels.count("Relaxed"), mood_labels.count("Angry")]
+    total_segments = len(mood_labels)
+    average_mood_probabilities = [count / total_segments for count in mood_counts]
+
+    # Create the radar chart trace
+    radar_chart = go.Figure(data=go.Scatterpolar(
+        r=average_mood_probabilities,
+        theta=categories,
+        fill='toself'
+    ))
+
+    # Set the title and save the radar chart as an image
+    radar_chart.update_layout(
+        title=f'Mood Radar Chart for {song_name}',
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 1]  # Adjust the range as needed
+            )
+        )
+    )
+
+    radar_chart.write_image(os.path.join(output_dir, f'{song_name}_radar_chart.png'))
+
 X_test, y_test, filenames = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
 
@@ -46,79 +90,21 @@ valence_model = keras.models.load_model(valence_model_path)
 a_pred = arousal_model.predict(X_test)
 v_pred = valence_model.predict(X_test)
 
-# Combine "bright" and "angry" as high arousal (1) and "relaxed" and "melancholy" as low arousal (0)
-high_arousal_indices = np.isin(a_mfcc_labels, ["bright", "angry"])
-low_arousal_indices = np.isin(a_mfcc_labels, ["relaxed", "melancholy"])
-
-# Assign labels accordingly
-a_pred_labels = np.where(high_arousal_indices, 1, 0)
-
-# If you have a classification task for valence, you can get the predicted class indices:
+# If you have a classification task, you can get the predicted class indices:
+a_pred_class_indices = np.argmax(a_pred, axis=1)
 v_pred_class_indices = np.argmax(v_pred, axis=1)
+
+# Use the combine_predictions function to get mood labels for each segment
+combined_mood_labels = combine_predictions(a_pred_class_indices, v_pred_class_indices)
 
 # Define your label list mapping class indices to labels
 label_list = {}
-for i, label in enumerate(mfcc_labels):
+for i, label in enumerate(combined_mood_labels):
     label_list[i] = label
 
-Song_list = {label: [] for label in filenames}  # Initialize Song_list with filenames
-
-# Initialize variables for percentage calculation
-segment_count = 0
-label_counts = {label: 0 for label in mfcc_labels}
-song_radar_values = np.zeros(len(mfcc_labels))
-prev_song_title = filenames[0][:-7]
-
-for i, f in enumerate(filenames):
-    predicted_idx = Song_list[f]
-
-    for idx in predicted_idx:
-        f_name = f[:-7]
-        if f_name != prev_song_title:
-            # Calculate the average radar values as percentages for the song
-            avg_radar_values = (song_radar_values / segment_count) * 100  # Multiply by 100 for percentages
-
-            # Output the averaged radar values to the terminal
-            print(f"{f_name} Average Radar Values:")
-            for label, avg_value in zip(mfcc_labels, avg_radar_values):
-                print(f"{label}: {avg_value:.2f}%")
-
-            radar_chart_trace = go.Scatterpolar(
-                r=avg_radar_values,
-                theta=list(mfcc_labels),
-                fill='toself',
-                name=f"{f_name}_Average"
-            )
-
-            # Create a layout for the radar chart
-            layout = go.Layout(
-                polar=dict(
-                    radialaxis=dict(showticklabels=False, ticks='', showline=False),
-                    angularaxis=dict(showticklabels=True, ticks='outside', showline=True)
-                ),
-                showlegend=True
-            )
-
-            fig = go.Figure(data=[radar_chart_trace], layout=layout)
-
-            # Save the figure as an image (PNG) in the output directory
-            output_filename = os.path.join(output_dir, f"{f_name}_RadarChart.png")
-            fig.write_image(output_filename)
-
-            # Reset variables for the next song
-            segment_count = 0
-            label_counts = {label: 0 for label in mfcc_labels}
-            song_radar_values = np.zeros(len(mfcc_labels))
-
-            prev_song_title = f_name
-
-        label_idx = predicted_class_indices[idx]
-        label = mfcc_labels[label_idx]
-
-        # Update label counts for percentage calculation
-        label_counts[label] += 1
-        segment_count += 1
-
-        # Update radar values for the current song
-        for i in range(len(mfcc_labels)):
-            song_radar_values[i] = label_counts[mfcc_labels[i]]
+unique_songs = set(filenames)  # Assuming filenames contain the song names
+for song_name in unique_songs:
+    segments_for_song = [combined_mood_labels[i] for i, filename in enumerate(filenames) if filename == song_name]
+    
+    # Create and save the radar chart for the song
+    create_radar_chart(song_name, segments_for_song)
