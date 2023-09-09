@@ -7,6 +7,7 @@ import os
 # Load the saved model
 saved_model_path = "../mood_classification/results/903_PCRNN_2D_pixabay_3sec/saved_model"
 test_data_path = "p4_8songs_3sec.json"
+model_saved_mfcc = "../pixabay_ds.json"
 output_dir = "radar_903p4_8songs_3sec"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
@@ -22,8 +23,17 @@ def load_testing_data(test_data_path):
 
     return X_test, y_test, filenames
 
+def load_mfcc_labels(model_saved_mfcc):
+    with open(model_saved_mfcc, "r") as fp:
+        data = json.load(fp)
+
+    mfcc_labels = np.array(data["mapping"])  # Adjust the key as per your data format
+
+    return mfcc_labels
+
 X_test, y_test, filenames = load_testing_data(test_data_path)
 X_test = X_test[..., np.newaxis]  # If needed, reshape your data for the model input
+mfcc_labels = load_mfcc_labels(model_saved_mfcc)
 
 loaded_model = keras.models.load_model(saved_model_path)
 
@@ -34,19 +44,14 @@ predictions = loaded_model.predict(X_test)
 predicted_class_indices = np.argmax(predictions, axis=1)
 
 # Define your label list mapping class indices to labels
-label_list = {
-    0: "Angry",
-    1: "Bright",
-    2: "Melancholic",
-    3: "Relaxed"
-}
+label_list = {}
+for i in range (len(mfcc_labels)):
+    label_list[i] = mfcc_labels[i]
 
 Song_list = set(filenames)
 Song_list = list(Song_list)
 Sorted_Song_list = sorted(Song_list)
 Song_list = {label : [] for label in Sorted_Song_list}
-
-
 
 # sort labels 
 for i, label in enumerate(predicted_class_indices):
