@@ -20,8 +20,8 @@ def split_wav_into_segments(input_directory, output_directory, segment_length_ms
 
         # Split the audio into 1-minute segments
         for i in range(num_segments):
-            start_time = i * segment_length_ms + 3000
-            end_time = (i + 1) * segment_length_ms + 3000
+            start_time = i * segment_length_ms + 5000
+            end_time = (i + 1) * segment_length_ms + 5000
             segment = audio[start_time:end_time]
 
             # Extract the original file name without extension
