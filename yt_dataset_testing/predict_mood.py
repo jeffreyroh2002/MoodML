@@ -6,7 +6,7 @@ import os
 
 # Load the saved model
 saved_model_path = "../mood_classification/results/909_PCRNN_2D_binary_valence_dataset_with_lyrics_3sec/saved_model"
-test_data_path = "json_files/p4_8songs_3sec.json"
+test_data_path = "p4_8songs_3sec.json"
 model_saved_mfcc = "../binary_classification/json_files/valence_dataset_lyrics.json"
 output_dir = "new_radar_results/new_radar_909p2_valence"  # Directory to save individual radar chart images
 
@@ -115,4 +115,4 @@ for f in Sorted_Song_list:
         # Update radar values for the current song
         song_radar_values[predicted_class_indices[idx]] +=1
 
-
+print(Song_list)

@@ -26,8 +26,8 @@ def split_wav_file(filename):
     split_unit = int(length // 60)
 
     for i in range(split_unit): 
-        t1 = i * 60
-        t2 = (i+1) * 60
+        t1 = i * 60 + 3
+        t2 = (i+1) * 60 + 3
         t1 = t1 * 1000 #Works in milliseconds
         t2 = t2 * 1000
 
