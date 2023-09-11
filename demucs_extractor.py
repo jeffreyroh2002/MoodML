@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Specify the directory containing your WAV audio files
-audio_directory = 'dataset_lyrics/Angry'
+audio_directory = 'dataset_lyrics/Preprocessed/Angry'
 
 # Specify the directory where you want to save the separated files
 output_directory = 'dataset_lyrics_extracted/'
