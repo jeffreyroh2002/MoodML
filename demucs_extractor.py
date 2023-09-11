@@ -5,7 +5,7 @@ import subprocess
 audio_directory = 'dataset_lyrics/Angry'
 
 # Specify the directory where you want to save the separated files
-output_directory = 'dataset_lyrics/'
+output_directory = 'dataset_lyrics_extracted/'
 
 # Ensure the output directories exist, create them if not
 os.makedirs(os.path.join(output_directory, 'angry_vocals'), exist_ok=True)
