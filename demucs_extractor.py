@@ -1,24 +1,41 @@
-import torchaudio
-import demucs
+import os
+import subprocess
 
-# Load the Demucs model (e.g., 'htdemucs' for the default model)
-model = demucs.models.HybridModel('htdemucs')
+# Specify the directory containing your WAV audio files
+audio_directory = 'dataset_lyrics/Angry'
 
-# Specify the input audio file
-input_audio_file = 'POWER.wav'
+# Specify the directory where you want to save the separated files
+output_directory = 'dataset_lyrics/'
 
-# Load the input audio file
-waveform, sample_rate = torchaudio.load(input_audio_file)
+# Ensure the output directories exist, create them if not
+os.makedirs(os.path.join(output_directory, 'angry_vocals'), exist_ok=True)
+os.makedirs(os.path.join(output_directory, 'angry_background'), exist_ok=True)
 
-# Perform source separation
-sources = model.separate(waveform)
+# List all audio files in the input directory
+audio_files = [f for f in os.listdir(audio_directory) if f.endswith('.wav')]
 
-# Define the output directory where separated sources will be saved
-output_directory = 'output_sources/'
+audio_files = [f for f in os.listdir(audio_directory) if f.endswith('.wav')]
 
-# Save the separated sources to individual audio files
-for source_name, source_waveform in sources.items():
-    output_file = f'{output_directory}{source_name}.wav'
-    torchaudio.save(output_file, source_waveform, sample_rate)
+# Loop through each audio file and perform source separation for vocals and background
+for audio_file in audio_files:
+    # Construct the full path to the input audio file
+    input_audio_path = os.path.join(audio_directory, audio_file)
 
-print('Source separation completed and files saved.')
+    # Perform source separation with Demucs to extract vocals
+    subprocess.run(['demucs', '--two-stems=vocals', input_audio_path])
+
+    # Perform source separation with Demucs to extract background (other)
+    subprocess.run(['demucs', '--two-stems=other', input_audio_path])
+
+    # Move the separated vocals and background files to their respective directories
+    vocals_file = os.path.join('separated', 'hdemucs', audio_file.replace('.wav', ''), 'vocals.wav')
+    background_file = os.path.join('separated', 'hdemucs', audio_file.replace('.wav', ''), 'other.wav')
+
+    output_vocals_directory = os.path.join(output_directory, 'angry_vocals')
+    output_background_directory = os.path.join(output_directory, 'angry_background')
+
+    os.rename(vocals_file, os.path.join(output_vocals_directory, audio_file.replace('.wav', '_vocals.wav')))
+    os.rename(background_file, os.path.join(output_background_directory, audio_file.replace('.wav', '_background.wav')))
+
+# Clean up the 'separated' directory created by Demucs
+subprocess.run(['rm', '-r', 'separated'])
