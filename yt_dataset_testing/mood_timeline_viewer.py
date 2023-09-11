@@ -45,16 +45,13 @@ label_list = {}
 for i in range (len(v_mfcc_labels)):
     label_list[i] = v_mfcc_labels[i]
 
-print(set(filenames))
 
 Song_list = set(filenames)
 Song_list = list(Song_list)
-print(Song_list)
 Sorted_Song_list = sorted(Song_list)
 Song_list = {label : [] for label in Sorted_Song_list}
 
 # Assuming label_list contains the mapping of class indices to labels
-counter = 0
 time = 0
 predicted_labels = [label_list[index] for index in predicted_class_indices]
 
@@ -71,6 +68,5 @@ for f in Sorted_Song_list:
         print(f"{3*time} sec Sample {f} : Predicted Label: {predicted_labels[idx]}")
         time += 1
 
-print(Sorted_Song_list)
-print(Song_list)
 
+print(Song_list)
