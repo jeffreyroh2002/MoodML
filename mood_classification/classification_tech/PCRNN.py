@@ -13,7 +13,7 @@ from sklearn.metrics import confusion_matrix
 NUM_CLASSES = 4
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "../../dataset_lyrics/dataset_with_lyrics.json"
+DATA_PATH = "../../dataset_lyrics_extracted/background_dataset.json"
 SAVE_MODEL = True
 SAVE_HM = True
 

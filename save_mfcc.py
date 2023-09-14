@@ -3,8 +3,8 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "dataset_lyrics/Preprocessed"
-JSON_FILE_NAME = "dataset_lyrics/dataset_with_lyrics.json"
+DATASET_PATH = "dataset_lyrics_extracted/Background"
+JSON_FILE_NAME = "dataset_lyrics_extracted/background_dataset.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050

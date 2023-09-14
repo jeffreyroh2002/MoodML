@@ -54,7 +54,10 @@ def create_radar_chart(song_name, mood_labels):
 
     # Calculate the average mood label for the song
     mood_counts = [mood_labels.count("Bright"), mood_labels.count("Melancholic"), mood_labels.count("Relaxed"), mood_labels.count("Angry")]
+    print(song_name)
+    print(mood_counts)
     total_segments = len(mood_labels)
+    print(total_segments)
     average_mood_probabilities = [count / total_segments for count in mood_counts]
 
     # Create the radar chart trace

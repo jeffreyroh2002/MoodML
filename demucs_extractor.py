@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Specify the directory containing your WAV audio files
-audio_directory = 'dataset_lyrics/Angry'
+audio_directory = 'dataset_lyrics/Preprocessed/Bright'
 
 # List all audio files in the input directory
 audio_files = [f for f in os.listdir(audio_directory) if f.endswith('.wav')]
