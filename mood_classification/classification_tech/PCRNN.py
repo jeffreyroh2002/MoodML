@@ -18,7 +18,7 @@ SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_PATH = "../results/907_PCRNN_2D_dataset_with_lyrics_3sec"
+NEWDIR_PATH = "../results/914_PCRNN_2D_lyrics_reduced_lr"
 
 MODEL_NAME = "saved_model"
 HM_NAME = "heatmap.png"
