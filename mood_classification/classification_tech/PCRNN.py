@@ -26,7 +26,7 @@ A_PLOT_NAME = 'accuracy.png'
 L_PLOT_NAME = 'loss.png'
 
 # Hyperparameters
-LEARNING_RATE = 0.0001
+LEARNING_RATE = 0.00001
 EPOCHS = 50
 
 ####################################
