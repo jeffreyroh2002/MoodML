@@ -1,0 +1,6 @@
+0. Try running new model for background on yt dataset where both lyrics and background exists
+1. Create a script that takes in only two moods create json file for valence (background)
+2. Create a script that takes in only two moods create json file for arousal (background)
+3. Run PCRNN by changing num class to 2 for both valence and arousal
+3. Create testing audio dataset with extracted background
+4. Use model testing script that runs two models and combines to test model perfomance
