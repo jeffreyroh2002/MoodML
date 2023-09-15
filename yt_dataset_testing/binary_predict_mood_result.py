@@ -159,7 +159,7 @@ def create_radar_chart(song_name, mood_labels):
     average_v_mood_probabilities = [count / total_segments for count in v_mood_counts]
     
     draw_plot(average_a_mood_probabilities, average_v_mood_probabilities, song_name)
-    draw_radar(average_a_mood_probabilities, average_v_mood_probabilities, song_name)
+    #draw_radar(average_a_mood_probabilities, average_v_mood_probabilities, song_name)
 
 
 X_test, y_test, filenames = load_testing_data(test_data_path)
