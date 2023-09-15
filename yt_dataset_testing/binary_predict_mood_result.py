@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 import os
 
 # Load the saved model
-arousal_model_path = "../mood_classification/results/909_PCRNN_2D_binary_arousal_dataset_with_lyrics_3sec/saved_model"
-valence_model_path = "../mood_classification/results/909_PCRNN_2D_binary_valence_dataset_with_lyrics_3sec/saved_model"
+arousal_model_path = "../mood_classification/results/915_PCRNN_2D_bg_arousal/saved_model"
+valence_model_path = "../mood_classification/results/915_PCRNN_2D_bg_valence/saved_model"
 test_data_path = "p4_8songs_3sec.json"
-arousal_mfcc_path = "../binary_classification/arousal_dataset_lyrics.json"
-valence_mfcc_path = "../binary_classification/valence_dataset_lyrics.json"
-output_dir = "new_radar_results/913_binaryCombined"  # Directory to save individual radar chart images
+arousal_mfcc_path = "../dataset_lyrics_extracted/____"
+valence_mfcc_path = "../dataset_lyrics_extracted/____"
+output_dir = "bg_radar_results/915_binaryCombined"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
