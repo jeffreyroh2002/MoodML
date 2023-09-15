@@ -8,8 +8,8 @@ import os
 arousal_model_path = "../mood_classification/results/915_PCRNN_2D_bg_arousal/saved_model"
 valence_model_path = "../mood_classification/results/915_PCRNN_2D_bg_valence/saved_model"
 test_data_path = "p4_8songs_3sec.json"
-arousal_mfcc_path = "../dataset_lyrics_extracted/____"
-valence_mfcc_path = "../dataset_lyrics_extracted/____"
+arousal_mfcc_path = "../dataset_lyrics_extracted/background_arousal.json"
+valence_mfcc_path = "../dataset_lyrics_extracted/background_valence.json"
 output_dir = "bg_radar_results/915_binaryCombined"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
