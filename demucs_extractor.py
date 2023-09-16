@@ -1,11 +1,12 @@
 import os
 import subprocess
+import shutil
 
 # Specify the parent directory containing subdirectories with WAV files
-parent_directory = 'yt_dataset_testing/yt_dataset/splited_file/'
+parent_directory = '~/MoodML/yt_dataset_testing/yt_dataset/splited_file/'
 
 # Specify the output directory for extracted vocal files
-output_directory = 'yt_dataset_testing/yt_dataset/splited_file_extracted'
+output_directory = '~/MoodML/yt_dataset_testing/yt_dataset/splited_file/extracted_vocals/'
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_directory, exist_ok=True)
@@ -20,10 +21,12 @@ for subdir in os.listdir(parent_directory):
 
         # Loop through each audio file and perform source separation for vocals
         for audio_file in audio_files:
-            # Specify the output path for the extracted vocal file
-            output_audio_path = os.path.join(output_directory, os.path.basename(audio_file)[:-4] + '_vocals.wav')
+            # Perform source separation with Demucs to extract vocals
+            subprocess.run(['demucs', '--out', 'vocals', audio_file])
 
-            # Perform source separation with Demucs to extract vocals and specify the output directory
-            subprocess.run(['demucs', '--out', 'vocals', '--outdir', output_directory, audio_file])
+            # Move the extracted vocal file to the output directory
+            vocal_file = os.path.splitext(os.path.basename(audio_file))[0] + '_vocals.wav'
+            vocal_path = os.path.join(subdir_path, vocal_file)
+            shutil.move(vocal_path, os.path.join(output_directory, vocal_file))
 
 print('Extraction of vocals completed.')
