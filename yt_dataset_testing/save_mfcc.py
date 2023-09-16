@@ -3,8 +3,8 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "yt_dataset/splited_file/"
-JSON_FILE_NAME = "p4_8songs_3sec.json"
+DATASET_PATH = "yt_dataset/splited_files_extracted/background"
+JSON_FILE_NAME = "bg_3sec.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
