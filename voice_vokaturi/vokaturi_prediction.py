@@ -1,30 +1,40 @@
-import sys
 import os
 import numpy as np
 import scipy.io.wavfile as wav
+from ctypes import CDLL
 
 # Specify the directory containing your WAV files
 vocals_directory = "../yt_dataset_testing/yt_dataset_extracted/splited_files_extracted/vocals"
 
-# Add the directory containing the Vokaturi library to the system path
-sys.path.append("api")
+# Load the Vokaturi library using CDLL
+vokaturi_library_path = "OpenVokaturi-4-0/lib/open/linux/OpenVokaturi-4-0-linux.so"  # Adjust for your platform
+vokaturi = CDLL(vokaturi_library_path)
 
-# Import the Vokaturi module
-import Vokaturi
+# Define Vokaturi data structures
+class Quality:
+    def __init__(self):
+        self.valid = 0
 
-vokaturi_library_path = "OpenVokaturi-4-0/lib/linux/OpenVokaturi-4-0-linux.so"
-Vokaturi.load(vokaturi_library_path)
+class EmotionProbabilities:
+    def __init__(self):
+        self.neutrality = 0.0
+        self.happiness = 0.0
+        self.sadness = 0.0
+        self.anger = 0.0
+        self.fear = 0.0
 
 def analyze_emotion(audio_data, sample_rate):
-    # Initialize a Vokaturi Voice object
-    voice = Vokaturi.Voice(sample_rate, len(audio_data), 1)
+    # Initialize Vokaturi data structures
+    quality = Quality()
+    emotion_probabilities = EmotionProbabilities()
+
+    # Initialize Vokaturi Voice object
+    voice = vokaturi.Voice_initialize(sample_rate, len(audio_data), 1)
 
     # Fill the Voice object with audio data
     voice.fill_float32array(len(audio_data), audio_data)
 
     # Extract emotion probabilities
-    quality = Vokaturi.Quality()
-    emotion_probabilities = Vokaturi.EmotionProbabilities()
     voice.extract(quality, emotion_probabilities)
 
     # Check if the analysis is valid
@@ -59,4 +69,4 @@ for filename in os.listdir(vocals_directory):
             print()
 
 # Clean up resources
-Vokaturi.destroy()
+vokaturi.Voice_free(voice)
