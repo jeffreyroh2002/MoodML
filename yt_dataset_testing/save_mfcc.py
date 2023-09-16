@@ -3,7 +3,7 @@ import os
 import math
 import librosa
 
-DATASET_PATH = "yt_dataset/splited_files_extracted/background"
+DATASET_PATH = "yt_dataset_testing/yt_dataset/splited_files_extracted/background"
 JSON_FILE_NAME = "bg_3sec.json"
 JSON_PATH = JSON_FILE_NAME
 
