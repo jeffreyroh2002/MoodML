@@ -49,7 +49,7 @@ def save_mfcc(dataset_path, json_path, sorted_file_path, n_mfcc=13, n_fft=2048, 
                 if len(mfcc) == expected_num_mfcc_vectors_per_segment:
                     data["mfcc"].append(mfcc.tolist())  # convert numpy array to list
                     data["labels"].append(0)
-                    data["filenames"].append(song)  # store the file name
+                    data["filenames"].append(os.path.basename(file_path))  # fixed this line
                     print("{}, segment:{}".format(file_path.split("/")[-1], s))
 
     with open(json_path, "w") as fp:
