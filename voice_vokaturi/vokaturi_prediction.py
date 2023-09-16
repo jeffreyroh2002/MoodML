@@ -1,4 +1,6 @@
+import sys
 import os
+import numpy as np
 import Vokaturi
 import scipy.io.wavfile as wav
 
@@ -6,12 +8,23 @@ import scipy.io.wavfile as wav
 vokaturi_library_path = "OpenVokaturi-4-0/lib/linux/OpenVokaturi-4-0-linux.so"
 Vokaturi.load(vokaturi_library_path)
 
-# Initialize a Vokaturi Voice object
-voice = Vokaturi.Voice()
+def analyze_emotion(audio_data, sample_rate):
+    # Initialize a Vokaturi Voice object
+    voice = Vokaturi.Voice(sample_rate, len(audio_data), 1)
 
-# Set the sample rate (adjust this based on your WAV file's sample rate)
-sample_rate = 44100  # Change to match your WAV file's sample rate
-voice.setSampleRate(sample_rate)
+    # Fill the Voice object with audio data
+    voice.fill_float32array(len(audio_data), audio_data)
+
+    # Extract emotion probabilities
+    quality = Vokaturi.Quality()
+    emotion_probabilities = Vokaturi.EmotionProbabilities()
+    voice.extract(quality, emotion_probabilities)
+
+    # Check if the analysis is valid
+    if quality.valid:
+        return emotion_probabilities
+    else:
+        return None
 
 # Specify the directory containing your WAV files
 vocals_directory = "../yt_dataset_testing/yt_dataset_extracted/splited_files_extracted/vocals"
@@ -22,31 +35,24 @@ for filename in os.listdir(vocals_directory):
         # Construct the full path to the WAV file
         wav_file_path = os.path.join(vocals_directory, filename)
 
-        # Load the WAV file
+        # Load the WAV file using scipy.io.wavfile
         sample_rate, audio_samples = wav.read(wav_file_path)
 
-        # Start recording
-        voice.startRecording()
+        # Normalize audio samples to the range [-1, 1]
+        audio_samples = audio_samples / 32768.0
 
-        # Add the audio samples to the Voice object
-        voice.recordSamples(audio_samples)
+        # Perform emotion analysis on the audio data
+        emotion_probabilities = analyze_emotion(audio_samples, sample_rate)
 
-        # Stop recording
-        voice.stopRecording()
-
-        # Analyze the emotion
-        emotion = voice.emotions
-
-        # Get emotion probabilities
-        emotion_values = emotion.getEmotionProbabilities()
-
-        # Map emotion values to labels
-        emotions = ["Neutral", "Happy", "Sad", "Angry", "Fearful", "Surprised"]
-
-        # Print the emotion probabilities for the current WAV file
-        print(f"Emotion probabilities for {filename}:")
-        for i, emotion_label in enumerate(emotions):
-            print(f"{emotion_label}: {emotion_values[i]}")
+        if emotion_probabilities is not None:
+            # Print the emotion probabilities for the current WAV file
+            print(f"Emotion probabilities for {filename}:")
+            print(f"Neutrality: {emotion_probabilities.neutrality * 100}%")
+            print(f"Happiness: {emotion_probabilities.happiness * 100}%")
+            print(f"Sadness: {emotion_probabilities.sadness * 100}%")
+            print(f"Anger: {emotion_probabilities.anger * 100}%")
+            print(f"Fear: {emotion_probabilities.fear * 100}%")
+            print()
 
 # Clean up resources
-voice.destroy()
+Vokaturi.destroy()
