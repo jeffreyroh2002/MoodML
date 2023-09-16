@@ -1,10 +1,17 @@
 import sys
 import os
 import numpy as np
-import Vokaturi
 import scipy.io.wavfile as wav
 
-# Load the Vokaturi library (make sure to specify the correct library path)
+# Specify the directory containing your WAV files
+vocals_directory = "../yt_dataset_testing/yt_dataset_extracted/splited_files_extracted/vocals"
+
+# Add the directory containing the Vokaturi library to the system path
+sys.path.append("api")
+
+# Import the Vokaturi module
+import Vokaturi
+
 vokaturi_library_path = "OpenVokaturi-4-0/lib/linux/OpenVokaturi-4-0-linux.so"
 Vokaturi.load(vokaturi_library_path)
 
@@ -25,9 +32,6 @@ def analyze_emotion(audio_data, sample_rate):
         return emotion_probabilities
     else:
         return None
-
-# Specify the directory containing your WAV files
-vocals_directory = "../yt_dataset_testing/yt_dataset_extracted/splited_files_extracted/vocals"
 
 # Iterate through the WAV files in the directory
 for filename in os.listdir(vocals_directory):
