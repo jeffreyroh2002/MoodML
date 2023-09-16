@@ -7,7 +7,7 @@ audio_directory = 'yt_dataset_testing/yt_dataset/splited_file/'
 # List all the audio files in directory
 audio_files = []
 for root, dirs, files in os.walk(audio_directory):
-    for f in os.listdir(audio_directory)
+    for f in os.listdir(audio_directory):
         if f.endswith('.wav'):
             audio_files.append(os.path.join(root,f))
 
