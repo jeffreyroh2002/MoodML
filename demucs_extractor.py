@@ -14,7 +14,10 @@ for subdir in os.listdir(parent_directory):
 
         # Loop through each audio file and perform source separation for vocals
         for audio_file in audio_files:
+            # Specify the output path for the extracted vocals
+            vocal_output_path = os.path.splitext(audio_file)[0] + '_vocals.wav'
+            
             # Perform source separation with Demucs to extract vocals
-            subprocess.run(['demucs', '--out', 'vocals', audio_file])
+            subprocess.run(['demucs', '--two-stems=vocals', audio_file, '-o', vocal_output_path])
 
 print('Extraction of vocals completed.')
