@@ -6,9 +6,9 @@ import os
 
 # Load the saved model
 saved_model_path = "../mood_classification/results/914_PCRNN_2D_lyrics_reduced_lr/saved_model"
-test_data_path = "json_files/p4_8songs_3sec.json"
+test_data_path = "json_files/bg_3sec.json"
 model_saved_mfcc = "../dataset_lyrics_extracted/background_dataset.json"
-output_dir = "new_radar_results/bg_radar_915_4mood"  # Directory to save individual radar chart images
+output_dir = "nvbg_radar_results/bg_radar_916_4mood"  # Directory to save individual radar chart images
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
