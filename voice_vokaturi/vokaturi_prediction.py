@@ -1,6 +1,12 @@
 import os
 import numpy as np
 import scipy.io.wavfile as wav
+import sys
+
+# Append the "api" directory to the sys.path
+sys.path.append("api")
+
+# Now you can import your custom Vokaturi module
 import Vokaturi
 
 # Specify the directory containing your WAV files
@@ -28,8 +34,11 @@ for filename in os.listdir(vocals_directory):
         # Fill the Voice object with audio data
         voice.fill_float32array(len(audio_samples), audio_samples)
 
+        # Define Vokaturi EmotionProbabilities
+        emotion_probabilities = Vokaturi.EmotionProbabilities()
+
         # Extract emotion probabilities
-        emotion_probabilities = voice.extract()
+        voice.extract(emotion_probabilities)
 
         # Print the emotion probabilities for the current WAV file
         print(f"Emotion probabilities for {filename}:")
