@@ -63,10 +63,4 @@ for filename in os.listdir(vocals_directory):
             print(f"Emotion probabilities for {filename}:")
             print(f"Neutrality: {emotion_probabilities.neutrality * 100}%")
             print(f"Happiness: {emotion_probabilities.happiness * 100}%")
-            print(f"Sadness: {emotion_probabilities.sadness * 100}%")
-            print(f"Anger: {emotion_probabilities.anger * 100}%")
-            print(f"Fear: {emotion_probabilities.fear * 100}%")
-            print()
-
-# Clean up resources
-vokaturi.Voice_free(voice)
+            print(f"Sadness: {emotion_probabilities.sadness * 100
