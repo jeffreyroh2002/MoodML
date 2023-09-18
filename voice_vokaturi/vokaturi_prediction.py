@@ -4,7 +4,7 @@ import scipy.io.wavfile as wav
 import sys
 
 # Append the "api" directory to the sys.path
-sys.path.append("api")
+sys.path.append("OpenVokaturi-4-0/api/")
 
 # Now you can import your custom Vokaturi module
 import Vokaturi
