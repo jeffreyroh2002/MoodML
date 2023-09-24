@@ -17,10 +17,10 @@ def extract_urls(input_file, output_file):
             output.write(url + '\n')
 
 # Replace 'input.txt' with the path to your input text file
-input_file = 'input.txt'
+input_file = 'vocal_list.txt'
 
 # Replace 'output.txt' with the path where you want to save the URLs
-output_file = 'output.txt'
+output_file = 'all_url.txt'
 
 # Call the function to extract and write URLs
 extract_urls(input_file, output_file)
