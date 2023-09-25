@@ -17,6 +17,8 @@ def remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration
     # Export the cleaned audio to the output file
     cleaned_audio.export(output_audio_path, format="wav")
 
+    print(f"Processed: {input_audio_path} -> {output_audio_path}")
+
 def process_directory(input_directory, output_directory, min_silence_duration=10000):
     # Traverse the input directory and its subdirectories
     for root, _, files in os.walk(input_directory):
