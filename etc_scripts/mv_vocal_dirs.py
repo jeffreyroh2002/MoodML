@@ -2,8 +2,8 @@ import os
 import shutil
 
 # Define the source and destination directories
-source_dir = "../vocal_timbre_analysis/yt_dataset/urls/wav_files/ethereal_dreamy_wav"
-destination_dir = "../vocal_timbre_analysis/yt_dataset/urls/wav_files/eth_vocal"
+source_dir = "../vocal_timbre_analysis/yt_dataset/urls/wav_files/raspy_gritty_wav"
+destination_dir = "../vocal_timbre_analysis/yt_dataset/urls/wav_files/ras_vocal"
 
 # Walk through the source directory
 for root, dirs, files in os.walk(source_dir):
