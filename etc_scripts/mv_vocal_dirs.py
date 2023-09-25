@@ -1,27 +1,29 @@
 import os
 import shutil
 
-# Define the source directory where the files are currently located
-source_directory = "../vocal_timbre_analysis/yt_dataset/urls/wav_files"
+# Define the source directory
+source_dir = "~/MoodML/vocal_timbre_analysis/yt_dataset/urls/wav_files"
 
-# Define the destination directory where you want to move the files
-destination_directory = "../vocal_timbre_analysis/yt_dataset/voice_extracted"
+# Define the destination directory
+destination_dir = "~/MoodML/vocal_timbre_analysis/yt_dataset/voice_extracted"
 
-# Walk through the source directory and its subdirectories
-for root, _, files in os.walk(source_directory):
-    for file in files:
-        if file == "vocals.wav":
-            # Get the parent directory name
-            parent_dir = os.path.basename(os.path.dirname(root))
+# Function to copy and rename files
+def copy_and_rename_files(src_dir, dest_dir):
+    for root, dirs, files in os.walk(src_dir):
+        for file in files:
+            if file == "vocals.wav":
+                # Get the parent directory name
+                parent_dir = os.path.basename(os.path.dirname(root))
+                # Create the new directory in the destination
+                new_dir = os.path.join(dest_dir, parent_dir)
+                os.makedirs(new_dir, exist_ok=True)
+                # Create the new file name
+                new_name = f"{parent_dir}-{file}"
+                old_path = os.path.join(root, file)
+                new_path = os.path.join(new_dir, new_name)
+                # Copy the file to the new location with the new name
+                shutil.copy(old_path, new_path)
+                print(f"Copied: {old_path} -> {new_path}")
 
-            # Create the new filename with the parent directory name
-            new_filename = f"{parent_dir}-{file}"
-
-            # Create the full paths for source and destination
-            source_path = os.path.join(root, file)
-            destination_path = os.path.join(destination_directory, new_filename)
-
-            # Rename and move the file
-            shutil.move(source_path, destination_path)
-
-print("Files moved and renamed successfully.")
+# Call the function to copy and rename files
+copy_and_rename_files(source_dir, destination_dir)
