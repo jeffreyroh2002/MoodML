@@ -1,6 +1,5 @@
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
-import sys
 import os
 
 def remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration=10000):
@@ -18,11 +17,28 @@ def remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration
     # Export the cleaned audio to the output file
     cleaned_audio.export(output_audio_path, format="wav")
 
+def process_directory(input_directory, output_directory, min_silence_duration=10000):
+    # Traverse the input directory and its subdirectories
+    for root, _, files in os.walk(input_directory):
+        for file in files:
+            if file.endswith(".wav"):
+                input_audio_path = os.path.join(root, file)
+
+                # Create the same directory structure in the output directory
+                output_audio_dir = os.path.join(output_directory, os.path.relpath(root, input_directory))
+                os.makedirs(output_audio_dir, exist_ok=True)
+
+                # Generate the output audio path with a different name
+                output_audio_path = os.path.join(output_audio_dir, file.replace(".wav", "_cleaned.wav"))
+
+                # Process and remove empty vocals
+                remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration)
+
 if __name__ == "__main__":
-    input_audio_path = "dataset_lyrics_extracted/Vocals/Relaxed/백예린 (Yerin Baek) - 0310  가사_01_vocals.wav"
-    output_audio_path = "yerin_cleaned_audio_10000.wav"
+    input_directory = "../vocal_timbre_analysis/yt_dataset/voice_original"  # Replace with your input directory
+    output_directory = "../vocal_timbre_analysis/yt_dataset/voice_cleaned"  # Replace with your output directory
 
     # Specify the minimum duration of silence to consider as empty vocal (in milliseconds)
     min_silence_duration = 10000  # Adjust this value as needed
 
-    remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration)
+    process_directory(input_directory, output_directory, min_silence_duration)
