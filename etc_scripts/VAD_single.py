@@ -1,7 +1,7 @@
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 
-def remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration=10000):
+def remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration=1000):
     try:
         # Load the input vocal audio file
         audio = AudioSegment.from_file(input_audio_path, format="wav")
@@ -24,9 +24,9 @@ def remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration
 
 if __name__ == "__main__":
     input_audio_path = "../vocal_timbre_analysis/yt_dataset/voice_original/smo_vocal/I-vocals.wav"  # Replace with your input audio file path
-    output_audio_path = "../vocal_timbre_analysis/yt_dataset/voice_cleaned"  # Specify the output file path
+    output_audio_path = "../vocal_timbre_analysis/yt_dataset/voice_cleaned/I-vocals-cleaned.wav"  # Specify the output file path
 
     # Specify the minimum duration of silence to consider as empty vocal (in milliseconds)
-    min_silence_duration = 10000  # Adjust this value as needed
+    min_silence_duration = 1000  # Adjust this value as needed
 
     remove_empty_vocal(input_audio_path, output_audio_path, min_silence_duration)
