@@ -2,10 +2,10 @@ import os
 import shutil
 
 # Define the source directory
-source_dir = "~/MoodML/vocal_timbre_analysis/yt_dataset/urls/wav_files"
+source_dir = "../vocal_timbre_analysis/yt_dataset/urls/wav_files"
 
 # Define the destination directory
-destination_dir = "~/MoodML/vocal_timbre_analysis/yt_dataset/voice_extracted"
+destination_dir = "../vocal_timbre_analysis/yt_dataset/voice_extracted"
 
 # Function to copy and rename files
 def copy_and_rename_files(src_dir, dest_dir):
