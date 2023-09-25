@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Specify the parent directory containing subdirectories with WAV files
-parent_directory = 'vocal_timbre_analysis/yt_dataset/yt_dataset/urls/wav_files'
+parent_directory = 'vocal_timbre_analysis/yt_dataset/urls/wav_files'
 
 # Loop through subdirectories
 for subdir in os.listdir(parent_directory):
