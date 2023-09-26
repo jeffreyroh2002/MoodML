@@ -25,7 +25,7 @@ A_PLOT_NAME = 'accuracy.png'
 L_PLOT_NAME = 'loss.png'
 
 # Hyperparameters
-LEARNING_RATE = 0.00001
+LEARNING_RATE = 0.0001
 EPOCHS = 50
 
 ####################################
@@ -84,6 +84,7 @@ def get_heatmap(model, X_test, y_test, newdir_path, hm_name, label_list):
     y_pred = np.argmax(prediction, axis=1)
 
     labels = sorted(label_list)  # Sort the labels
+    print("LABEL LIST PRINTED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + str(labels))
     column = [f'Predicted {label}' for label in labels]
     indices = [f'Actual {label}' for label in labels]
     table = pd.DataFrame(confusion_matrix(y_test, y_pred), columns=column, index=indices)
