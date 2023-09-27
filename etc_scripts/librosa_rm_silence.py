@@ -1,5 +1,6 @@
 import librosa
 import soundfile as sf
+import numpy as np
 
 # Load the input WAV file using librosa
 input_file = "../vocal_timbre_analysis/yt_dataset/voice_original/smo_vocal/I-vocals.wav"
