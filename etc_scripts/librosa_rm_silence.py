@@ -18,10 +18,10 @@ for start, end in silent_regions:
     non_silent_audio.extend(y[start:end])
 
 # Convert the non-silent audio to a numpy array
-non_silent_audio = librosa.util.fix_length(np.array(non_silent_audio), None)
+non_silent_audio = np.array(non_silent_audio)
 
 # Save the resulting audio to a new WAV file using soundfile
-output_file = "../lib_I-output.wav"
+output_file = "../librosa_testing_I.wav"
 sf.write(output_file, non_silent_audio, sr)
 
 print("Silence longer than", min_silence_duration, "seconds removed and saved as", output_file)
