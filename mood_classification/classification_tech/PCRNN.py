@@ -18,15 +18,15 @@ SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_PATH = "../results/929_PCRNN_C4_voice_100ep"
+NEWDIR_PATH = "../results/929_PCRNN_C4_voice_50ep_0.0001lr"
 MODEL_NAME = "saved_model"
 HM_NAME = "heatmap.png"
 A_PLOT_NAME = 'accuracy.png'
 L_PLOT_NAME = 'loss.png'
 
 # Hyperparameters
-LEARNING_RATE = 0.00001
-EPOCHS = 100
+LEARNING_RATE = 0.0001
+EPOCHS = 50
 
 ####################################
 tf.debugging.set_log_device_placement(True)
