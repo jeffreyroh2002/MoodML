@@ -5,7 +5,7 @@ import plotly.graph_objs as go
 import os
 
 # Load the saved model
-saved_model_path = "../mood_classification/results/930_PCRNN_C4_voice_50ep_0.00001/saved_model"
+saved_model_path = "../mood_classification/results/930_PCRNN_C4_voice_50ep_0.00001lr/saved_model"
 test_data_path = "json_files/vocal-split-mfcc.json"
 model_saved_mfcc = "../vocal_timbre_analysis/yt_dataset/voiceless_eth_ras_smo_cleaned_vocal.json"
 output_dir = "results/103-radar-vocal-with-voiceless"  # Directory to save individual radar chart images
