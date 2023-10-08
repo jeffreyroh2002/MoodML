@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Specify the directory containing your WAV audio files
-audio_directory = '../timbre-testing-data/wav_files'
+audio_directory = '../vocal_timbre_analysis/yt_dataset/urls/wav_files/add_smooth'
 
 # List all the audio files in directory
 audio_files = []

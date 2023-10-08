@@ -13,12 +13,12 @@ from sklearn.metrics import confusion_matrix
 NUM_CLASSES = 4
 
 # path to json file that stores MFCCs and genre labels for each processed segment
-DATA_PATH = "../../vocal_timbre_analysis/yt_dataset/voiceless_eth_ras_smo_vocal.json"
+DATA_PATH = "../../vocal_timbre_analysis/yt_dataset/voiceless_eth_ras_smo_cleaned_vocal.json"
 SAVE_MODEL = True
 SAVE_HM = True
 
 #OUTPUT DIR/FILE NAMES
-NEWDIR_PATH = "../results/929_PCRNN_C4_voice_50ep_0.00001lr"
+NEWDIR_PATH = "../results/930_PCRNN_C4_voice_100ep_0.00001lr"
 MODEL_NAME = "saved_model"
 HM_NAME = "heatmap.png"
 A_PLOT_NAME = 'accuracy.png'
@@ -26,7 +26,7 @@ L_PLOT_NAME = 'loss.png'
 
 # Hyperparameters
 LEARNING_RATE = 0.00001
-EPOCHS = 50
+EPOCHS = 100
 
 ####################################
 tf.debugging.set_log_device_placement(True)

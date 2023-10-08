@@ -4,7 +4,7 @@ import math
 import librosa
 
 DATASET_PATH = "../vocal_timbre_analysis/yt_dataset/voice_split"
-JSON_FILE_NAME = "../vocal_timbre_analysis/yt_dataset/voiceless_eth_ras_smo_vocal.json"
+JSON_FILE_NAME = "../vocal_timbre_analysis/yt_dataset/voiceless_eth_ras_smo_cleaned_vocal.json"
 JSON_PATH = JSON_FILE_NAME
 
 SAMPLE_RATE = 22050
