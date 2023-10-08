@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Specify the directory containing your WAV audio files
-audio_directory = 'yt_dataset_testing/yt_dataset/splited_file/'
+audio_directory = '../timbre-testing-data/wav_files'
 
 # List all the audio files in directory
 audio_files = []
