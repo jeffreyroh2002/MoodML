@@ -125,15 +125,6 @@ def Parallel_CNN_RNN(input_shape, num_classes):
     C_layer = keras.layers.Dropout(0.2)(C_layer)
     C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
     
-    # C_layer = keras.layers.Conv2D(filters=128, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(C_layer)
-    # C_layer = keras.layers.BatchNormalization()(C_layer)
-    # C_layer = keras.layers.Dropout(0.2)(C_layer)
-    # C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
-    
-    # C_layer = keras.layers.Conv2D(filters=64, kernel_size=(3,3), strides=(1,1), activation='relu', padding='same')(C_layer)
-    # C_layer = keras.layers.BatchNormalization()(C_layer)
-    # C_layer = keras.layers.Dropout(0.2)(C_layer)
-    # C_layer = keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2))(C_layer)
     C_layer = keras.layers.Flatten()(C_layer)
     
     # R_layer = keras.layers.MaxPooling2D(pool_size=(1,1), strides=(1,2))(input)
@@ -149,7 +140,6 @@ def Parallel_CNN_RNN(input_shape, num_classes):
     R_layer = keras.layers.Bidirectional(keras.layers.GRU(512, return_sequences=False))(R_layer)
     R_layer = keras.layers.BatchNormalization()(R_layer)
     R_layer = keras.layers.Dropout(0.5)(R_layer)
-    # R_layer5 = keras.layers.Bidirectional(keras.layers.GRU(256))(R_layer4)
     
     concat = keras.layers.concatenate([C_layer, R_layer], axis=1)
     output = keras.layers.Dense(num_classes, activation='softmax')(concat)
