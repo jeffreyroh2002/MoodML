@@ -184,7 +184,7 @@ if __name__ == "__main__":
                         batch_size=32, epochs=EPOCHS, verbose=1, callbacks=[lr_scheduler])
     """
     
-    checkpoint = ModelCheckpoint('best_model.h5', save_best_only=True, monitor='val_loss', mode='min')
+    checkpoint = ModelCheckpoint(os.path.join(NEWDIR_PATH,'best_model.h5'), save_best_only=True, monitor='val_loss', mode='min')
 
     # Train the model
     history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation),
