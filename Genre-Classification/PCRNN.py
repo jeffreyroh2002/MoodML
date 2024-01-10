@@ -127,13 +127,8 @@ def Parallel_CNN_RNN(input_shape, num_classes):
     
     C_layer = keras.layers.Flatten()(C_layer)
     
-    # R_layer = keras.layers.MaxPooling2D(pool_size=(1,1), strides=(1,2))(input)
-    # R_layer = keras.layers.MaxPooling2D(pool_size=(1,2), strides=(1,2))(R_layer)
     R_layer = keras.layers.Reshape(target_shape=(130,13))(input)
-    # R_layer = keras.layers.Embedding(input_dim=256, output_dim=128, input_length=128)(R_layer)
     R_layer = keras.layers.Dense(128, activation='relu')(R_layer)
-    # R_layer = keras.layers.Reshape(target_shape=(128, 128))(R_layer)
-    # R_layer = keras.layers.Embedding(input_dim=256, output_dim=128)(R_layer)
     R_layer = keras.layers.Bidirectional(keras.layers.GRU(512, return_sequences=True))(R_layer)
     R_layer = keras.layers.BatchNormalization()(R_layer)
     R_layer = keras.layers.Dropout(0.5)(R_layer)
@@ -212,9 +207,6 @@ if __name__ == "__main__":
     # Pick a sample to predict from the test set
     X_to_predict = X_test[10]
     y_to_predict = y_test[10]
-
-    # Predict sample
-    #predict(model, X_to_predict, y_to_predict)
 
     # Save model
     if SAVE_MODEL:
